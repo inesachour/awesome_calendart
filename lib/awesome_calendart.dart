@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class AwesomeCalenDart extends StatefulWidget {
-  bool isDarkMode;
-  double elevation;
-  double borderRadius;
+  final bool isDarkMode;
+  final double elevation;
+  final double borderRadius;
 
-  AwesomeCalenDart({
+  const AwesomeCalenDart({
     super.key,
     this.isDarkMode = false,
     this.elevation = 5,
