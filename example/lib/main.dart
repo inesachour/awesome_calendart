@@ -39,7 +39,9 @@ class _CalendarState extends State<Calendar> {
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
             padding: const EdgeInsets.all(5),
-            child: AwesomeCalenDart(isDarkMode: true,),
+            child: AwesomeCalenDart(
+              isDarkMode: true,
+            ),
           ),
         ],
       ),
