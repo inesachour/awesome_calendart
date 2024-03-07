@@ -1,6 +1,6 @@
 name: awesome_calendart
 description: "An easy to use calendar widget supporting all platforms (ios, android, web, desktop, ...)"
-version: 1.0.2
+version: 1.0.3
 homepage: https://github.com/inesachour/awesome_calendart
 
 environment:

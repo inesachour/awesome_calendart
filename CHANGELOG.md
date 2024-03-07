@@ -9,3 +9,7 @@
 ## 1.0.2
 
 * Better documentation
+
+## 1.0.3
+
+* Better documentation
