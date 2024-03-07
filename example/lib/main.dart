@@ -1,4 +1,4 @@
-import 'package:awesome_calendar/awesome_calendar.dart';
+import 'package:calendart/calendart.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -39,7 +39,7 @@ class _CalendarState extends State<Calendar> {
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
             padding: const EdgeInsets.all(5),
-            child: AwesomeCalendar(isDarkMode: true,),
+            child: CalenDart(isDarkMode: true,),
           ),
         ],
       ),
