@@ -9,8 +9,8 @@ The package provides the AwesomeCalenDart class, which can be easily integrated 
     <img src="images/lightmode.jpg" height="300">
 </p>
 
-* Dark Mode: </br>
-* <p align="center" width="100%">
+* Dark Mode:
+<p align="center" width="100%">
     <img src="images/darkmode.jpg" height="300">
 </p>
 
