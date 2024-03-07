@@ -1,20 +1,20 @@
 # CalenDart Flutter Package
 
 ## Overview
-The "CalenDart" Flutter package offer a calendar widget designed to enhance your Flutter applications with a stylish and functional calendar display. </br>
-The package provides the CalenDart class, which can be easily integrated into your Flutter projects.
+The "Awesome CalenDart" Flutter package offer a calendar widget designed to enhance your Flutter applications with a stylish and functional calendar display. </br>
+The package provides the AwesomeCalenDart class, which can be easily integrated into your Flutter projects.
 
 ## Usage
 ### Import the package
 
 ```dart
-import 'package:calendart/calendart.dart';
+import 'package:awesome_calendart/awesome_calendart.dart';
 ```
 
-### Instantiate the CalenDart widget
+### Instantiate the AwesomeCalenDart widget
 
 ```dart
-CalenDart(
+AwesomeCalenDart(
   isDarkMode: true,
   borderRadius: 16.0,
   elevation: 4.0,

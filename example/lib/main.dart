@@ -1,4 +1,4 @@
-import 'package:calendart/calendart.dart';
+import 'package:awesome_calendart/awesome_calendart.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -30,7 +30,7 @@ class _CalendarState extends State<Calendar> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(child: Text("CalenDart")),
+        title: const Center(child: Text("Awesome CalenDart")),
         titleTextStyle: const TextStyle(color: Colors.white, fontSize: 24),
         backgroundColor: Colors.blue,
       ),
@@ -39,7 +39,7 @@ class _CalendarState extends State<Calendar> {
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
             padding: const EdgeInsets.all(5),
-            child: CalenDart(isDarkMode: true,),
+            child: AwesomeCalenDart(isDarkMode: true,),
           ),
         ],
       ),

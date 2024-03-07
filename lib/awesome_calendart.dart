@@ -1,15 +1,15 @@
 library awesome_calendar;
 
-import 'package:calendart/theme.dart';
+import 'package:awesome_calendart/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class CalenDart extends StatefulWidget {
+class AwesomeCalenDart extends StatefulWidget {
   bool isDarkMode;
   double elevation;
   double borderRadius;
 
-  CalenDart({
+  AwesomeCalenDart({
     super.key,
     this.isDarkMode = false,
     this.elevation = 5,
@@ -17,10 +17,10 @@ class CalenDart extends StatefulWidget {
   });
 
   @override
-  State<CalenDart> createState() => _CalenDartState();
+  State<AwesomeCalenDart> createState() => _AwesomeCalenDartState();
 }
 
-class _CalenDartState extends State<CalenDart> {
+class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
 
   late DateTime today, firstDayInMonth, selectedDate;
   late int daysInMonth;
