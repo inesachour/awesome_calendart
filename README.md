@@ -5,7 +5,8 @@ The "Awesome CalenDart" Flutter package offer a calendar widget designed to enha
 The package provides the AwesomeCalenDart class, which can be easily integrated into your Flutter projects.
 
 * Light Mode: </br>
-![Light Mode](images/lightmode.jpg =x250)
+![Light Mode](images/lightmode.jpg)
+<img src="images/lightmode.jpg" height="200">
 
 * Dark Mode: </br>
 ![Dark Mode](images/darkmode.jpg)
