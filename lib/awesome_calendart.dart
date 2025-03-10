@@ -21,28 +21,22 @@ class AwesomeCalenDart extends StatefulWidget {
 }
 
 class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
-  late DateTime today, firstDayInMonth, selectedDate;
+  late DateTime displayedMonth, selectedDate;
   late int daysInMonth;
   List<String> days = ["MON", "TUE", "WED", "THU", "FRI", "SUN", "SAT"];
   late dynamic theme;
 
   _getNextMonth() {
-    firstDayInMonth = AwesomeDateUtils.getNextMonth(firstDayInMonth);
-    daysInMonth = DateTimeRange(
-            start: firstDayInMonth,
-            end: DateTime(firstDayInMonth.year, firstDayInMonth.month + 1))
-        .duration
-        .inDays;
+    displayedMonth = AwesomeDateUtils.getNextMonth(displayedMonth);
+    daysInMonth =
+        DateUtils.getDaysInMonth(displayedMonth.year, displayedMonth.month);
     setState(() {});
   }
 
   _getPreviousMonth() {
-    firstDayInMonth = AwesomeDateUtils.getPreviousMonth(firstDayInMonth);
-    daysInMonth = DateTimeRange(
-            start: firstDayInMonth,
-            end: DateTime(firstDayInMonth.year, firstDayInMonth.month + 1))
-        .duration
-        .inDays;
+    displayedMonth = AwesomeDateUtils.getPreviousMonth(displayedMonth);
+    daysInMonth =
+        DateUtils.getDaysInMonth(displayedMonth.year, displayedMonth.month);
     setState(() {});
   }
 
@@ -54,14 +48,10 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
 
   @override
   void initState() {
-    today = DateTime.now();
-    selectedDate = today;
-    firstDayInMonth = DateTime(today.year, today.month, 1);
-    daysInMonth = DateTimeRange(
-            start: firstDayInMonth,
-            end: DateTime(firstDayInMonth.year, firstDayInMonth.month + 1))
-        .duration
-        .inDays;
+    selectedDate = DateTime.now();
+    displayedMonth = DateTime(selectedDate.year, selectedDate.month, 1);
+    daysInMonth =
+        DateUtils.getDaysInMonth(displayedMonth.year, displayedMonth.month);
     theme = widget.isDarkMode ? DarkTheme() : LightTheme();
     super.initState();
   }
@@ -87,7 +77,7 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
                 ),
                 Expanded(
                   child: Text(
-                    AwesomeDateUtils.getMonthAndYear(firstDayInMonth),
+                    AwesomeDateUtils.getMonthAndYear(displayedMonth),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: theme.primaryColor,
@@ -128,13 +118,13 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
                   onTap: () {
                     setState(() {
                       selectedDate = DateTime(
-                          firstDayInMonth.year, firstDayInMonth.month, i + 1);
+                          displayedMonth.year, displayedMonth.month, i + 1);
                     });
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      color: _isDateSelected(i + 1, firstDayInMonth.month,
-                              firstDayInMonth.year)
+                      color: _isDateSelected(
+                              i + 1, displayedMonth.month, displayedMonth.year)
                           ? theme.thirdColor
                           : null,
                       shape: BoxShape.circle,
@@ -143,8 +133,8 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
                       child: Text(
                         "${i + 1}",
                         style: TextStyle(
-                          color: _isDateSelected(i + 1, firstDayInMonth.month,
-                                  firstDayInMonth.year)
+                          color: _isDateSelected(i + 1, displayedMonth.month,
+                                  displayedMonth.year)
                               ? Colors.white
                               : theme.primaryColor,
                         ),
