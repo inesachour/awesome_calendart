@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class AwesomeDateUtils {
@@ -19,5 +20,9 @@ class AwesomeDateUtils {
     } else {
       return DateTime(date.year - 1, 12, 1);
     }
+  }
+
+  static getDaysInMonth(DateTime date) {
+    return DateUtils.getDaysInMonth(date.year, date.month);
   }
 }

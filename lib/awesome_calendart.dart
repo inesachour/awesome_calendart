@@ -22,21 +22,17 @@ class AwesomeCalenDart extends StatefulWidget {
 
 class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
   late DateTime displayedMonth, selectedDate;
-  late int daysInMonth;
   List<String> days = ["MON", "TUE", "WED", "THU", "FRI", "SUN", "SAT"];
   late dynamic theme;
 
   _getNextMonth() {
     displayedMonth = AwesomeDateUtils.getNextMonth(displayedMonth);
-    daysInMonth =
-        DateUtils.getDaysInMonth(displayedMonth.year, displayedMonth.month);
+
     setState(() {});
   }
 
   _getPreviousMonth() {
     displayedMonth = AwesomeDateUtils.getPreviousMonth(displayedMonth);
-    daysInMonth =
-        DateUtils.getDaysInMonth(displayedMonth.year, displayedMonth.month);
     setState(() {});
   }
 
@@ -50,8 +46,6 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
   void initState() {
     selectedDate = DateTime.now();
     displayedMonth = DateTime(selectedDate.year, selectedDate.month, 1);
-    daysInMonth =
-        DateUtils.getDaysInMonth(displayedMonth.year, displayedMonth.month);
     theme = widget.isDarkMode ? DarkTheme() : LightTheme();
     super.initState();
   }
@@ -113,7 +107,8 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
               crossAxisCount: 7,
               childAspectRatio: 1.5,
               padding: const EdgeInsets.all(0),
-              children: List<Widget>.generate(daysInMonth, (i) {
+              children: List<Widget>.generate(
+                  AwesomeDateUtils.getDaysInMonth(displayedMonth), (i) {
                 return GestureDetector(
                   onTap: () {
                     setState(() {
