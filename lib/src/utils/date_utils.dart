@@ -43,4 +43,70 @@ class AwesomeDateUtils {
         return ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     }
   }
+
+  static List<String> getFullWeekdayNames(LocaleType locale) {
+    switch (locale) {
+      case LocaleType.en:
+        return [
+          'Monday',
+          'Tuesday',
+          'Wednesday',
+          'Thursday',
+          'Friday',
+          'Saturday',
+          'Sunday'
+        ];
+      case LocaleType.fr:
+        return [
+          'Lundi',
+          'Mardi',
+          'Mercredi',
+          'Jeudi',
+          'Vendredi',
+          'Samedi',
+          'Dimanche'
+        ];
+      case LocaleType.de:
+        return [
+          'Montag',
+          'Dienstag',
+          'Mittwoch',
+          'Donnerstag',
+          'Freitag',
+          'Samstag',
+          'Sonntag'
+        ];
+      case LocaleType.es:
+        return [
+          'Lunes',
+          'Martes',
+          'Miércoles',
+          'Jueves',
+          'Viernes',
+          'Sábado',
+          'Domingo'
+        ];
+      case LocaleType.it:
+        return [
+          'Lunedì',
+          'Martedì',
+          'Mercoledì',
+          'Giovedì',
+          'Venerdì',
+          'Sabato',
+          'Domenica'
+        ];
+
+      default:
+        return [
+          'Monday',
+          'Tuesday',
+          'Wednesday',
+          'Thursday',
+          'Friday',
+          'Saturday',
+          'Sunday'
+        ];
+    }
+  }
 }

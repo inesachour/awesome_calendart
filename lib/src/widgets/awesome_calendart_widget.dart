@@ -8,6 +8,7 @@ class AwesomeCalenDart extends StatefulWidget {
   final double elevation;
   final double borderRadius;
   final LocaleType locale;
+  final bool displayFullMonthName;
 
   const AwesomeCalenDart({
     super.key,
@@ -15,6 +16,7 @@ class AwesomeCalenDart extends StatefulWidget {
     this.elevation = 5,
     this.borderRadius = 20,
     this.locale = LocaleType.en,
+    this.displayFullMonthName = false,
   });
 
   @override
@@ -45,7 +47,9 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
 
   @override
   void initState() {
-    weekDays = AwesomeDateUtils.getShortWeekdayNames(widget.locale);
+    weekDays = widget.displayFullMonthName
+        ? AwesomeDateUtils.getFullWeekdayNames(widget.locale)
+        : AwesomeDateUtils.getShortWeekdayNames(widget.locale);
     selectedDate = DateTime.now();
     displayedMonth = DateTime(selectedDate.year, selectedDate.month, 1);
     theme = widget.isDarkMode ? DarkTheme() : LightTheme();
