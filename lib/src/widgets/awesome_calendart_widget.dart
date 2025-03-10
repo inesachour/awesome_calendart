@@ -1,6 +1,5 @@
 import 'package:awesome_calendart/awesome_calendart.dart';
 import 'package:awesome_calendart/src/utils/date_utils.dart';
-import 'package:awesome_calendart/theme.dart';
 import 'package:flutter/material.dart';
 
 class AwesomeCalenDart extends StatefulWidget {
@@ -12,6 +11,7 @@ class AwesomeCalenDart extends StatefulWidget {
   final TextStyle? yearAndMonthTextStyle;
   final TextStyle? weeksDaysTextStyle;
   final TextStyle? daysTextStyle;
+  final AwesomeTheme? theme;
 
   const AwesomeCalenDart({
     super.key,
@@ -23,6 +23,7 @@ class AwesomeCalenDart extends StatefulWidget {
     this.yearAndMonthTextStyle,
     this.weeksDaysTextStyle,
     this.daysTextStyle,
+    this.theme,
   });
 
   @override
@@ -32,7 +33,7 @@ class AwesomeCalenDart extends StatefulWidget {
 class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
   late DateTime displayedMonth, selectedDate;
   late List<String> weekDays;
-  late dynamic theme;
+  late AwesomeTheme theme;
 
   _getNextMonth() {
     displayedMonth = AwesomeDateUtils.getNextMonth(displayedMonth);
@@ -58,7 +59,7 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
         : AwesomeDateUtils.getShortWeekdayNames(widget.locale);
     selectedDate = DateTime.now();
     displayedMonth = DateTime(selectedDate.year, selectedDate.month, 1);
-    theme = widget.isDarkMode ? DarkTheme() : LightTheme();
+    theme = widget.theme ?? (widget.isDarkMode ? DarkTheme() : LightTheme());
     super.initState();
   }
 
@@ -134,7 +135,7 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
                     decoration: BoxDecoration(
                       color: _isDateSelected(
                               i + 1, displayedMonth.month, displayedMonth.year)
-                          ? theme.thirdColor
+                          ? theme.selectedDateColor
                           : null,
                       shape: BoxShape.circle,
                     ),
