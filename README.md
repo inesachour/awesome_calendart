@@ -25,15 +25,56 @@ import 'package:awesome_calendart/awesome_calendart.dart';
 
 ```dart
 AwesomeCalenDart(
-  isDarkMode: true,
-  borderRadius: 16.0,
-  elevation: 4.0,
+    final double elevation = 5; // Elevation of the calendar, determines the shadow depth
+    final double borderRadius = 20.0; // Border radius for rounded corners of the calendar
+    final LocaleType locale = LocaleType.en; // Locale type to determine the language
+    final bool displayFullMonthName = false;  // Determines whether to display the full month name (e.g., "January" vs "Jan")
+    final TextStyle? yearAndMonthTextStyle; // Custom text style for the year and month header
+    final TextStyle? weeksDaysTextStyle; // Custom text style for the week days (e.g., Sun, Mon, Tue, etc.)
+    final TextStyle? selectedDaysTextStyle; // Custom text style for selected days in the calendar
+    final TextStyle? unselectedDaysTextStyle; // Custom text style for unselected days in the calendar
+    final AwesomeTheme? theme; // Theme for customizing the appearance of the calendar
 ),
 ```
 
-## Parameters
+## LocaleType
+The following table lists the currently supported locales for the calendar:
 
-- isDarkMode (optional): A boolean parameter indicating whether the calendar should use a dark mode theme. If true, the calendar will be styled with a dark color scheme; otherwise, it will use a light color scheme. Default is false.
-- borderRadius (optional): A double parameter specifying the border radius of the calendar widget. This controls the rounded corners of the calendar. Default is 8.0.
-- elevation (optional): A double parameter representing the elevation of the calendar. This controls the shadow effect beneath the calendar. Default is 2.0.
+| Locale Code | Language         |
+|-------------|------------------|
+| en          | English          |
+| fr          | French           |
+| es          | Spanish          |
+| de          | German           |
+| it          | Italian          |
 
+To use a locale, set it as follows:
+```dart
+    locale: LocaleType.en
+```
+
+## AwesomeTheme
+Themes can customize the calendar.
+
+```dart
+class AwesomeTheme {
+  Color backgroundColor;
+  Color yearAndMonthColor;
+  Color weekDaysColor;
+  Color buttonColor;
+  Color selectedDateBackgroundColor;
+  Color selectedDayColor;
+  Color unselectedDayColor;
+}
+```
+
+We offer two custom themes: light mode and dark mode.
+To use the light theme, set it as follows:
+```dart
+  theme: LightTheme(),
+```
+
+To use the dark theme, set it as follows:
+```dart
+  theme: DarkTheme(),
+```

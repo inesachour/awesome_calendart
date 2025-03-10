@@ -3,7 +3,6 @@ import 'package:awesome_calendart/src/utils/date_utils.dart';
 import 'package:flutter/material.dart';
 
 class AwesomeCalenDart extends StatefulWidget {
-  final bool isDarkMode;
   final double elevation;
   final double borderRadius;
   final LocaleType locale;
@@ -16,7 +15,6 @@ class AwesomeCalenDart extends StatefulWidget {
 
   const AwesomeCalenDart({
     super.key,
-    this.isDarkMode = false,
     this.elevation = 5,
     this.borderRadius = 20,
     this.locale = LocaleType.en,
@@ -61,7 +59,7 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
         : AwesomeDateUtils.getShortWeekdayNames(widget.locale);
     selectedDate = DateTime.now();
     displayedMonth = DateTime(selectedDate.year, selectedDate.month, 1);
-    theme = widget.theme ?? (widget.isDarkMode ? DarkTheme() : LightTheme());
+    theme = widget.theme ?? (widget.theme ?? LightTheme());
     super.initState();
   }
 
