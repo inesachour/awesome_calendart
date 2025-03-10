@@ -21,3 +21,7 @@
 ## 1.1.0
 
 * More customization available
+
+## 1.1.1
+
+* Small performance improvement and dependency update

@@ -39,8 +39,6 @@ class AwesomeDateUtils {
         return ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
       case LocaleType.it:
         return ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
-      default:
-        return ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     }
   }
 
@@ -95,17 +93,6 @@ class AwesomeDateUtils {
           'Venerdì',
           'Sabato',
           'Domenica'
-        ];
-
-      default:
-        return [
-          'Monday',
-          'Tuesday',
-          'Wednesday',
-          'Thursday',
-          'Friday',
-          'Saturday',
-          'Sunday'
         ];
     }
   }
