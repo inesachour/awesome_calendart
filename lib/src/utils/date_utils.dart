@@ -1,3 +1,4 @@
+import 'package:awesome_calendart/src/data/locale.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -24,5 +25,22 @@ class AwesomeDateUtils {
 
   static getDaysInMonth(DateTime date) {
     return DateUtils.getDaysInMonth(date.year, date.month);
+  }
+
+  static List<String> getShortWeekdayNames(LocaleType locale) {
+    switch (locale) {
+      case LocaleType.en:
+        return ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      case LocaleType.fr:
+        return ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+      case LocaleType.de:
+        return ['Mon', 'Die', 'Mit', 'Don', 'Fre', 'Sam', 'Son'];
+      case LocaleType.es:
+        return ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+      case LocaleType.it:
+        return ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
+      default:
+        return ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    }
   }
 }
