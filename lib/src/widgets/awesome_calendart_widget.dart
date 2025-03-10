@@ -10,7 +10,8 @@ class AwesomeCalenDart extends StatefulWidget {
   final bool displayFullMonthName;
   final TextStyle? yearAndMonthTextStyle;
   final TextStyle? weeksDaysTextStyle;
-  final TextStyle? daysTextStyle;
+  final TextStyle? selectedDaysTextStyle;
+  final TextStyle? unselectedDaysTextStyle;
   final AwesomeTheme? theme;
 
   const AwesomeCalenDart({
@@ -22,7 +23,8 @@ class AwesomeCalenDart extends StatefulWidget {
     this.displayFullMonthName = false,
     this.yearAndMonthTextStyle,
     this.weeksDaysTextStyle,
-    this.daysTextStyle,
+    this.selectedDaysTextStyle,
+    this.unselectedDaysTextStyle,
     this.theme,
   });
 
@@ -79,7 +81,7 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
                   onPressed: _getPreviousMonth,
                   icon: Icon(
                     Icons.arrow_back_ios,
-                    color: theme.primaryColor,
+                    color: theme.buttonColor,
                   ),
                 ),
                 Expanded(
@@ -88,7 +90,7 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
                     textAlign: TextAlign.center,
                     style: widget.yearAndMonthTextStyle ??
                         TextStyle(
-                            color: theme.primaryColor,
+                            color: theme.yearAndMonthColor,
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
                   ),
@@ -97,7 +99,7 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
                   onPressed: _getNextMonth,
                   icon: Icon(
                     Icons.arrow_forward_ios,
-                    color: theme.primaryColor,
+                    color: theme.buttonColor,
                   ),
                 ),
               ],
@@ -112,7 +114,7 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
                   child: Text(
                     weekDays[i],
                     style: widget.weeksDaysTextStyle ??
-                        TextStyle(color: theme.secondaryColor),
+                        TextStyle(color: theme.weekDaysColor),
                   ),
                 );
               }),
@@ -135,20 +137,21 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
                     decoration: BoxDecoration(
                       color: _isDateSelected(
                               i + 1, displayedMonth.month, displayedMonth.year)
-                          ? theme.selectedDateColor
+                          ? theme.selectedDateBackgroundColor
                           : null,
                       shape: BoxShape.circle,
                     ),
                     child: Center(
                       child: Text(
                         "${i + 1}",
-                        style: widget.daysTextStyle ??
-                            TextStyle(
-                              color: _isDateSelected(i + 1,
-                                      displayedMonth.month, displayedMonth.year)
-                                  ? Colors.white
-                                  : theme.primaryColor,
-                            ),
+                        style: _isDateSelected(i + 1, displayedMonth.month,
+                                displayedMonth.year)
+                            ? (widget.selectedDaysTextStyle ??
+                                TextStyle(color: theme.selectedDayColor))
+                            : (widget.unselectedDaysTextStyle ??
+                                TextStyle(
+                                  color: theme.unselectedDayColor,
+                                )),
                       ),
                     ),
                   ),

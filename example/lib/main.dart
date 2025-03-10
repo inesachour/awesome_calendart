@@ -40,7 +40,8 @@ class _CalendarState extends State<Calendar> {
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
             padding: const EdgeInsets.all(5),
             child: AwesomeCalenDart(
-              locale: LocaleType.es,
+              locale: LocaleType.fr,
+              displayFullMonthName: true,
               isDarkMode: true,
             ),
           ),
