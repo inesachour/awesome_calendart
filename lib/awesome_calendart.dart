@@ -1,8 +1,8 @@
 library awesome_calendar;
 
+import 'package:awesome_calendart/src/date_utils.dart';
 import 'package:awesome_calendart/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class AwesomeCalenDart extends StatefulWidget {
   final bool isDarkMode;
@@ -26,17 +26,8 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
   List<String> days = ["MON", "TUE", "WED", "THU", "FRI", "SUN", "SAT"];
   late dynamic theme;
 
-  String _getMonthAndYear(DateTime date) {
-    return DateFormat('MMMM yyyy').format(date);
-  }
-
   _getNextMonth() {
-    if (firstDayInMonth.month != 12) {
-      firstDayInMonth =
-          DateTime(firstDayInMonth.year, firstDayInMonth.month + 1, 1);
-    } else {
-      firstDayInMonth = DateTime(firstDayInMonth.year + 1, 1, 1);
-    }
+    firstDayInMonth = AwesomeDateUtils.getNextMonth(firstDayInMonth);
     daysInMonth = DateTimeRange(
             start: firstDayInMonth,
             end: DateTime(firstDayInMonth.year, firstDayInMonth.month + 1))
@@ -46,12 +37,7 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
   }
 
   _getPreviousMonth() {
-    if (firstDayInMonth.month != 1) {
-      firstDayInMonth =
-          DateTime(firstDayInMonth.year, firstDayInMonth.month - 1, 1);
-    } else {
-      firstDayInMonth = DateTime(firstDayInMonth.year - 1, 12, 1);
-    }
+    firstDayInMonth = AwesomeDateUtils.getPreviousMonth(firstDayInMonth);
     daysInMonth = DateTimeRange(
             start: firstDayInMonth,
             end: DateTime(firstDayInMonth.year, firstDayInMonth.month + 1))
@@ -101,7 +87,7 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
                 ),
                 Expanded(
                   child: Text(
-                    _getMonthAndYear(firstDayInMonth),
+                    AwesomeDateUtils.getMonthAndYear(firstDayInMonth),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: theme.primaryColor,
