@@ -9,6 +9,9 @@ class AwesomeCalenDart extends StatefulWidget {
   final double borderRadius;
   final LocaleType locale;
   final bool displayFullMonthName;
+  final TextStyle? yearAndMonthTextStyle;
+  final TextStyle? weeksDaysTextStyle;
+  final TextStyle? daysTextStyle;
 
   const AwesomeCalenDart({
     super.key,
@@ -17,6 +20,9 @@ class AwesomeCalenDart extends StatefulWidget {
     this.borderRadius = 20,
     this.locale = LocaleType.en,
     this.displayFullMonthName = false,
+    this.yearAndMonthTextStyle,
+    this.weeksDaysTextStyle,
+    this.daysTextStyle,
   });
 
   @override
@@ -79,10 +85,11 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
                   child: Text(
                     AwesomeDateUtils.getMonthAndYear(displayedMonth),
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: theme.primaryColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                    style: widget.yearAndMonthTextStyle ??
+                        TextStyle(
+                            color: theme.primaryColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
                   ),
                 ),
                 IconButton(
@@ -103,7 +110,8 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
                 return Center(
                   child: Text(
                     weekDays[i],
-                    style: TextStyle(color: theme.secondaryColor),
+                    style: widget.weeksDaysTextStyle ??
+                        TextStyle(color: theme.secondaryColor),
                   ),
                 );
               }),
@@ -133,12 +141,13 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
                     child: Center(
                       child: Text(
                         "${i + 1}",
-                        style: TextStyle(
-                          color: _isDateSelected(i + 1, displayedMonth.month,
-                                  displayedMonth.year)
-                              ? Colors.white
-                              : theme.primaryColor,
-                        ),
+                        style: widget.daysTextStyle ??
+                            TextStyle(
+                              color: _isDateSelected(i + 1,
+                                      displayedMonth.month, displayedMonth.year)
+                                  ? Colors.white
+                                  : theme.primaryColor,
+                            ),
                       ),
                     ),
                   ),
