@@ -41,7 +41,6 @@ class _CalendarState extends State<Calendar> {
             padding: const EdgeInsets.all(5),
             child: AwesomeCalenDart(
               locale: LocaleType.fr,
-              displayFullMonthName: true,
               isDarkMode: true,
             ),
           ),
