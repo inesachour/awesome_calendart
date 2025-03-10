@@ -17,3 +17,7 @@
 ## 1.0.4
 
 * Better documentation
+
+## 1.1.0
+
+* More customization available

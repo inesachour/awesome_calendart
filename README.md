@@ -58,13 +58,13 @@ Themes can customize the calendar.
 
 ```dart
 class AwesomeTheme {
-  Color backgroundColor;
-  Color yearAndMonthColor;
-  Color weekDaysColor;
-  Color buttonColor;
-  Color selectedDateBackgroundColor;
-  Color selectedDayColor;
-  Color unselectedDayColor;
+    Color backgroundColor;
+    Color yearAndMonthColor;
+    Color weekDaysColor;
+    Color buttonColor;
+    Color selectedDateBackgroundColor;
+    Color selectedDayColor;
+    Color unselectedDayColor;
 }
 ```
 
