@@ -25,3 +25,7 @@
 ## 1.1.1
 
 * Small performance improvement and dependency update
+
+## 1.1.2
+
+* Better documentation
