@@ -14,6 +14,7 @@ class AwesomeCalenDartDaysView extends StatefulWidget {
   final TextStyle? selectedDaysTextStyle;
   final TextStyle? unselectedDaysTextStyle;
   final AwesomeTheme theme;
+  final LocaleType locale;
 
   AwesomeCalenDartDaysView({
     super.key,
@@ -28,6 +29,7 @@ class AwesomeCalenDartDaysView extends StatefulWidget {
     required this.selectedDaysTextStyle,
     required this.unselectedDaysTextStyle,
     required this.theme,
+    required this.locale,
   });
 
   @override
@@ -67,7 +69,7 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
             ),
             Expanded(
               child: Text(
-                AwesomeDateUtils.getMonthAndYear(widget.displayedMonth),
+                AwesomeDateUtils.getMonthAndYear(widget.displayedMonth, widget.locale),
                 textAlign: TextAlign.center,
                 style: widget.yearAndMonthTextStyle ??
                     TextStyle(

@@ -96,6 +96,7 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
           weeksDaysTextStyle: widget.weeksDaysTextStyle,
           yearAndMonthTextStyle: widget.yearAndMonthTextStyle,
           theme: theme,
+          locale: widget.locale,
         ),
       ),
     );

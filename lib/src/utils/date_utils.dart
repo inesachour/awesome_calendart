@@ -1,10 +1,10 @@
 import 'package:awesome_calendart/src/data/locale.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class AwesomeDateUtils {
-  static String getMonthAndYear(DateTime date) {
-    return DateFormat('MMMM yyyy').format(date);
+  static String getMonthAndYear(DateTime date, LocaleType locale) {
+    List<String> months = getMonthsNames(locale);
+    return "${months[date.month - 1]} ${date.year}";
   }
 
   static DateTime getNextMonth(DateTime date) {
@@ -93,6 +93,86 @@ class AwesomeDateUtils {
           'Venerdì',
           'Sabato',
           'Domenica'
+        ];
+    }
+  }
+
+  static List<String> getMonthsNames(LocaleType locale) {
+    switch (locale) {
+      case LocaleType.en:
+        return [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December'
+        ];
+      case LocaleType.fr:
+        return [
+          'Janvier',
+          'Février',
+          'Mars',
+          'Avril',
+          'Mai',
+          'Juin',
+          'Juillet',
+          'Août',
+          'Septembre',
+          'Octobre',
+          'Novembre',
+          'Décembre'
+        ];
+      case LocaleType.de:
+        return [
+          'Januar',
+          'Februar',
+          'März',
+          'April',
+          'Mai',
+          'Juni',
+          'Juli',
+          'August',
+          'September',
+          'Oktober',
+          'November',
+          'Dezember'
+        ];
+      case LocaleType.es:
+        return [
+          'Enero',
+          'Febrero',
+          'Marzo',
+          'Abril',
+          'Mayo',
+          'Junio',
+          'Julio',
+          'Agosto',
+          'Septiembre',
+          'Octubre',
+          'Noviembre',
+          'Diciembre'
+        ];
+      case LocaleType.it:
+        return [
+          'Gennaio',
+          'Febbraio',
+          'Marzo',
+          'Aprile',
+          'Maggio',
+          'Giugno',
+          'Luglio',
+          'Agosto',
+          'Settembre',
+          'Ottobre',
+          'Novembre',
+          'Dicembre'
         ];
     }
   }
