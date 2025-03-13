@@ -23,15 +23,6 @@ class AwesomeTheme {
   /// The color of the unselected days texts (Days List View).
   TextStyle unselectedDayTextStyle;
 
-  /// The color of the year  header text (Months List View).
-  TextStyle yearHeaderTextStyle;
-
-  /// The color of the selected month text (Months List View).
-  TextStyle selectedMonthTextStyle;
-
-  /// The color of the unselected month texts (Months List View).
-  TextStyle unselectedMonthTextStyle;
-
   AwesomeTheme({
     this.backgroundColor = const Color(0xFFFFFFFF),
     this.buttonColor = const Color(0xFF4A5660),
@@ -43,11 +34,6 @@ class AwesomeTheme {
     this.selectedDateBackgroundColor = const Color(0xFFF04D23),
     this.selectedDayTextStyle = const TextStyle(color: Colors.white),
     this.unselectedDayTextStyle = const TextStyle(color: Color(0xFF4A5660)),
-
-    // Months View
-    this.yearHeaderTextStyle = const TextStyle(color: Color(0xFF4A5660)),
-    this.selectedMonthTextStyle = const TextStyle(color: Colors.white),
-    this.unselectedMonthTextStyle = const TextStyle(color: Color(0xFF4A5660)),
   });
 }
 
