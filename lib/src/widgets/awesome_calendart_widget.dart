@@ -1,5 +1,6 @@
 import 'package:awesome_calendart/awesome_calendart.dart';
 import 'package:awesome_calendart/src/utils/date_utils.dart';
+import 'package:awesome_calendart/src/widgets/awesome_calendart_days_view.dart';
 import 'package:flutter/material.dart';
 
 class AwesomeCalenDart extends StatefulWidget {
@@ -52,21 +53,16 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
   late List<String> weekDays;
   late AwesomeTheme theme;
 
-  _getNextMonth() {
-    displayedMonth = AwesomeDateUtils.getNextMonth(displayedMonth);
-
-    setState(() {});
+  updateSelectedDate(DateTime newDate) {
+    setState(() {
+      selectedDate = newDate;
+    });
   }
 
-  _getPreviousMonth() {
-    displayedMonth = AwesomeDateUtils.getPreviousMonth(displayedMonth);
-    setState(() {});
-  }
-
-  _isDateSelected(int day, int month, int year) {
-    return day == selectedDate.day &&
-        month == selectedDate.month &&
-        year == selectedDate.year;
+  updateDisplayedMonth(DateTime newMonth) {
+    setState(() {
+      displayedMonth = newMonth;
+    });
   }
 
   @override
@@ -88,92 +84,18 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
       color: theme.backgroundColor,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                IconButton(
-                  onPressed: _getPreviousMonth,
-                  icon: Icon(
-                    Icons.arrow_back_ios,
-                    color: theme.buttonColor,
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    AwesomeDateUtils.getMonthAndYear(displayedMonth),
-                    textAlign: TextAlign.center,
-                    style: widget.yearAndMonthTextStyle ??
-                        TextStyle(
-                            color: theme.yearAndMonthColor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                  ),
-                ),
-                IconButton(
-                  onPressed: _getNextMonth,
-                  icon: Icon(
-                    Icons.arrow_forward_ios,
-                    color: theme.buttonColor,
-                  ),
-                ),
-              ],
-            ),
-            GridView.count(
-              shrinkWrap: true,
-              crossAxisCount: 7,
-              childAspectRatio: 1.5,
-              padding: const EdgeInsets.all(0),
-              children: List<Widget>.generate(7, (i) {
-                return Center(
-                  child: Text(
-                    weekDays[i],
-                    style: widget.weeksDaysTextStyle ??
-                        TextStyle(color: theme.weekDaysColor),
-                  ),
-                );
-              }),
-            ),
-            GridView.count(
-              shrinkWrap: true,
-              crossAxisCount: 7,
-              childAspectRatio: 1.5,
-              padding: const EdgeInsets.all(0),
-              children: List<Widget>.generate(
-                  AwesomeDateUtils.getDaysInMonth(displayedMonth), (i) {
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectedDate = DateTime(
-                          displayedMonth.year, displayedMonth.month, i + 1);
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: _isDateSelected(
-                              i + 1, displayedMonth.month, displayedMonth.year)
-                          ? theme.selectedDateBackgroundColor
-                          : null,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: Text(
-                        "${i + 1}",
-                        style: _isDateSelected(i + 1, displayedMonth.month,
-                                displayedMonth.year)
-                            ? (widget.selectedDaysTextStyle ??
-                                TextStyle(color: theme.selectedDayColor))
-                            : (widget.unselectedDaysTextStyle ??
-                                TextStyle(
-                                  color: theme.unselectedDayColor,
-                                )),
-                      ),
-                    ),
-                  ),
-                );
-              }),
-            ),
-          ],
+        child: AwesomeCalenDartDaysView(
+          selectedDate: selectedDate,
+          displayedMonth: displayedMonth,
+          updateSelectedDate: updateSelectedDate,
+          updateDisplayedMonth: updateDisplayedMonth,
+          weekDays: weekDays,
+          displayFullMonthName: widget.displayFullMonthName,
+          selectedDaysTextStyle: widget.selectedDaysTextStyle,
+          unselectedDaysTextStyle: widget.unselectedDaysTextStyle,
+          weeksDaysTextStyle: widget.weeksDaysTextStyle,
+          yearAndMonthTextStyle: widget.yearAndMonthTextStyle,
+          theme: theme,
         ),
       ),
     );
