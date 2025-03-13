@@ -7,11 +7,8 @@ class AwesomeCalenDartDaysView extends StatefulWidget {
   DateTime displayedMonth;
   final Function(DateTime) updateSelectedDate;
   final Function(DateTime) updateDisplayedMonth;
+  final Function(int) updateSelectedView;
   final bool displayFullMonthName;
-  final TextStyle? yearAndMonthTextStyle;
-  final TextStyle? weeksDaysTextStyle;
-  final TextStyle? selectedDaysTextStyle;
-  final TextStyle? unselectedDaysTextStyle;
   final AwesomeTheme theme;
   final LocaleType locale;
 
@@ -21,11 +18,8 @@ class AwesomeCalenDartDaysView extends StatefulWidget {
     required this.displayedMonth,
     required this.updateSelectedDate,
     required this.updateDisplayedMonth,
+    required this.updateSelectedView,
     required this.displayFullMonthName,
-    required this.yearAndMonthTextStyle,
-    required this.weeksDaysTextStyle,
-    required this.selectedDaysTextStyle,
-    required this.unselectedDaysTextStyle,
     required this.theme,
     required this.locale,
   });
@@ -76,15 +70,16 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
               ),
             ),
             Expanded(
-              child: Text(
-                AwesomeDateUtils.getMonthAndYear(
-                    widget.displayedMonth, widget.locale),
-                textAlign: TextAlign.center,
-                style: widget.yearAndMonthTextStyle ??
-                    TextStyle(
-                        color: widget.theme.yearAndMonthColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+              child: GestureDetector(
+                onTap: () {
+                  widget.updateSelectedView(1);
+                },
+                child: Text(
+                  AwesomeDateUtils.getMonthAndYear(
+                      widget.displayedMonth, widget.locale),
+                  textAlign: TextAlign.center,
+                  style: widget.theme.yearAndMonthHeaderTextStyle,
+                ),
               ),
             ),
             IconButton(
@@ -105,8 +100,7 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
             return Center(
               child: Text(
                 weekDays[i],
-                style: widget.weeksDaysTextStyle ??
-                    TextStyle(color: widget.theme.weekDaysColor),
+                style: widget.theme.weekDaysTextStyle,
               ),
             );
           }),
@@ -136,12 +130,8 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
                     "${i + 1}",
                     style: _isDateSelected(i + 1, widget.displayedMonth.month,
                             widget.displayedMonth.year)
-                        ? (widget.selectedDaysTextStyle ??
-                            TextStyle(color: widget.theme.selectedDayColor))
-                        : (widget.unselectedDaysTextStyle ??
-                            TextStyle(
-                              color: widget.theme.unselectedDayColor,
-                            )),
+                        ? widget.theme.selectedDayTextStyle
+                        : widget.theme.unselectedDayTextStyle,
                   ),
                 ),
               ),
@@ -150,6 +140,5 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
         ),
       ],
     );
-    ;
   }
 }

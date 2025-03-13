@@ -5,32 +5,49 @@ class AwesomeTheme {
   /// The background color of the calendar.
   Color backgroundColor;
 
-  /// The color of the year and month text.
-  Color yearAndMonthColor;
-
-  /// The color of the weekdays text.
-  Color weekDaysColor;
-
   /// The color of the next and previous buttons in the calendar.
   Color buttonColor;
 
-  /// The background color of a selected date.
+  /// The color of the year and month header text (Days List View).
+  TextStyle yearAndMonthHeaderTextStyle;
+
+  /// The color of the weekdays text (Days List View).
+  TextStyle weekDaysTextStyle;
+
+  /// The background color of a selected date (Days List View).
   Color selectedDateBackgroundColor;
 
-  /// The color of the selected day text.
-  Color selectedDayColor;
+  /// The color of the selected day text (Days List View).
+  TextStyle selectedDayTextStyle;
 
-  /// The color of the unselected days texts.
-  Color unselectedDayColor;
+  /// The color of the unselected days texts (Days List View).
+  TextStyle unselectedDayTextStyle;
+
+  /// The color of the year  header text (Months List View).
+  TextStyle yearHeaderTextStyle;
+
+  /// The color of the selected month text (Months List View).
+  TextStyle selectedMonthTextStyle;
+
+  /// The color of the unselected month texts (Months List View).
+  TextStyle unselectedMonthTextStyle;
 
   AwesomeTheme({
     this.backgroundColor = const Color(0xFFFFFFFF),
-    this.yearAndMonthColor = const Color(0xFF4A5660),
-    this.weekDaysColor = const Color(0xFFB5BEC6),
     this.buttonColor = const Color(0xFF4A5660),
+
+    // Days View
+    this.yearAndMonthHeaderTextStyle =
+        const TextStyle(color: Color(0xFF4A5660)),
+    this.weekDaysTextStyle = const TextStyle(color: Color(0xFFB5BEC6)),
     this.selectedDateBackgroundColor = const Color(0xFFF04D23),
-    this.selectedDayColor = Colors.white,
-    this.unselectedDayColor = const Color(0xFF4A5660),
+    this.selectedDayTextStyle = const TextStyle(color: Colors.white),
+    this.unselectedDayTextStyle = const TextStyle(color: Color(0xFF4A5660)),
+
+    // Months View
+    this.yearHeaderTextStyle = const TextStyle(color: Color(0xFF4A5660)),
+    this.selectedMonthTextStyle = const TextStyle(color: Colors.white),
+    this.unselectedMonthTextStyle = const TextStyle(color: Color(0xFF4A5660)),
   });
 }
 

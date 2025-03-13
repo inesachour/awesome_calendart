@@ -1,5 +1,6 @@
 import 'package:awesome_calendart/awesome_calendart.dart';
 import 'package:awesome_calendart/src/widgets/awesome_calendart_days_view.dart';
+import 'package:awesome_calendart/src/widgets/awesome_calendart_months_view.dart';
 import 'package:flutter/material.dart';
 
 class AwesomeCalenDart extends StatefulWidget {
@@ -15,18 +16,6 @@ class AwesomeCalenDart extends StatefulWidget {
   /// A flag to indicate whether the full month name should be displayed (e.g., "January" instead of "Jan") (default false).
   final bool displayFullMonthName;
 
-  /// The text style for the year and month display. This value overrides the value passed in the theme's yearAndMonthColor property.
-  final TextStyle? yearAndMonthTextStyle;
-
-  /// The text style for the weekdays display. This value overrides the value passed in the theme's weekDaysColor property.
-  final TextStyle? weeksDaysTextStyle;
-
-  /// The text style for the selected days. This value overrides the value passed in the theme's selectedDayColor property.
-  final TextStyle? selectedDaysTextStyle;
-
-  /// The text style for the unselected days. This value overrides the value passed in the theme's unselectedDayColor property.
-  final TextStyle? unselectedDaysTextStyle;
-
   /// A theme that can be applied to the calendar (default [LightTheme]).
   final AwesomeTheme? theme;
 
@@ -36,10 +25,6 @@ class AwesomeCalenDart extends StatefulWidget {
     this.borderRadius = 20,
     this.locale = LocaleType.en,
     this.displayFullMonthName = false,
-    this.yearAndMonthTextStyle,
-    this.weeksDaysTextStyle,
-    this.selectedDaysTextStyle,
-    this.unselectedDaysTextStyle,
     this.theme,
   });
 
@@ -50,6 +35,14 @@ class AwesomeCalenDart extends StatefulWidget {
 class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
   late DateTime displayedMonth, selectedDate;
   late AwesomeTheme theme;
+
+  int selectedView = 0;
+
+  updateSlectedView(int index) {
+    setState(() {
+      selectedView = index;
+    });
+  }
 
   updateSelectedDate(DateTime newDate) {
     setState(() {
@@ -79,19 +72,25 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
       color: theme.backgroundColor,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        child: AwesomeCalenDartDaysView(
-          selectedDate: selectedDate,
-          displayedMonth: displayedMonth,
-          updateSelectedDate: updateSelectedDate,
-          updateDisplayedMonth: updateDisplayedMonth,
-          displayFullMonthName: widget.displayFullMonthName,
-          selectedDaysTextStyle: widget.selectedDaysTextStyle,
-          unselectedDaysTextStyle: widget.unselectedDaysTextStyle,
-          weeksDaysTextStyle: widget.weeksDaysTextStyle,
-          yearAndMonthTextStyle: widget.yearAndMonthTextStyle,
-          theme: theme,
-          locale: widget.locale,
-        ),
+        child: selectedView == 0
+            ? AwesomeCalenDartDaysView(
+                selectedDate: selectedDate,
+                displayedMonth: displayedMonth,
+                updateSelectedDate: updateSelectedDate,
+                updateDisplayedMonth: updateDisplayedMonth,
+                updateSelectedView: updateSlectedView,
+                displayFullMonthName: widget.displayFullMonthName,
+                theme: theme,
+                locale: widget.locale,
+              )
+            : selectedView == 1
+                ? AwesomeCalenDartMonthsView(
+                    displayedMonth: displayedMonth,
+                    updateDisplayedMonth: updateDisplayedMonth,
+                    theme: theme,
+                    locale: widget.locale,
+                  )
+                : Container(),
       ),
     );
   }
