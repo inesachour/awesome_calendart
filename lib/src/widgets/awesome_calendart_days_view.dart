@@ -7,7 +7,6 @@ class AwesomeCalenDartDaysView extends StatefulWidget {
   DateTime displayedMonth;
   final Function(DateTime) updateSelectedDate;
   final Function(DateTime) updateDisplayedMonth;
-  List<String> weekDays;
   final bool displayFullMonthName;
   final TextStyle? yearAndMonthTextStyle;
   final TextStyle? weeksDaysTextStyle;
@@ -22,7 +21,6 @@ class AwesomeCalenDartDaysView extends StatefulWidget {
     required this.displayedMonth,
     required this.updateSelectedDate,
     required this.updateDisplayedMonth,
-    required this.weekDays,
     required this.displayFullMonthName,
     required this.yearAndMonthTextStyle,
     required this.weeksDaysTextStyle,
@@ -38,6 +36,8 @@ class AwesomeCalenDartDaysView extends StatefulWidget {
 }
 
 class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
+  late List<String> weekDays;
+
   _getPreviousMonth() {
     DateTime newDate = AwesomeDateUtils.getPreviousMonth(widget.selectedDate);
     widget.updateSelectedDate(newDate);
@@ -55,6 +55,14 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    weekDays = widget.displayFullMonthName
+        ? AwesomeDateUtils.getFullWeekdayNames(widget.locale)
+        : AwesomeDateUtils.getShortWeekdayNames(widget.locale);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -69,7 +77,8 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
             ),
             Expanded(
               child: Text(
-                AwesomeDateUtils.getMonthAndYear(widget.displayedMonth, widget.locale),
+                AwesomeDateUtils.getMonthAndYear(
+                    widget.displayedMonth, widget.locale),
                 textAlign: TextAlign.center,
                 style: widget.yearAndMonthTextStyle ??
                     TextStyle(
@@ -95,7 +104,7 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
           children: List<Widget>.generate(7, (i) {
             return Center(
               child: Text(
-                widget.weekDays[i],
+                weekDays[i],
                 style: widget.weeksDaysTextStyle ??
                     TextStyle(color: widget.theme.weekDaysColor),
               ),

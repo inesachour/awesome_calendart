@@ -1,5 +1,4 @@
 import 'package:awesome_calendart/awesome_calendart.dart';
-import 'package:awesome_calendart/src/utils/date_utils.dart';
 import 'package:awesome_calendart/src/widgets/awesome_calendart_days_view.dart';
 import 'package:flutter/material.dart';
 
@@ -50,7 +49,6 @@ class AwesomeCalenDart extends StatefulWidget {
 
 class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
   late DateTime displayedMonth, selectedDate;
-  late List<String> weekDays;
   late AwesomeTheme theme;
 
   updateSelectedDate(DateTime newDate) {
@@ -67,9 +65,6 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
 
   @override
   void initState() {
-    weekDays = widget.displayFullMonthName
-        ? AwesomeDateUtils.getFullWeekdayNames(widget.locale)
-        : AwesomeDateUtils.getShortWeekdayNames(widget.locale);
     selectedDate = DateTime.now();
     displayedMonth = DateTime(selectedDate.year, selectedDate.month, 1);
     theme = widget.theme ?? (widget.theme ?? LightTheme());
@@ -89,7 +84,6 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
           displayedMonth: displayedMonth,
           updateSelectedDate: updateSelectedDate,
           updateDisplayedMonth: updateDisplayedMonth,
-          weekDays: weekDays,
           displayFullMonthName: widget.displayFullMonthName,
           selectedDaysTextStyle: widget.selectedDaysTextStyle,
           unselectedDaysTextStyle: widget.unselectedDaysTextStyle,
