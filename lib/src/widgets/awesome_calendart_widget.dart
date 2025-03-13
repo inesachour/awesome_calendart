@@ -33,7 +33,7 @@ class AwesomeCalenDart extends StatefulWidget {
 }
 
 class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
-  late DateTime displayedMonth, selectedDate;
+  late DateTime selectedMonth, selectedDate;
   late AwesomeTheme theme;
 
   int selectedView = 0;
@@ -50,16 +50,16 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
     });
   }
 
-  updateDisplayedMonth(DateTime newMonth) {
+  updateSelectedMonth(DateTime newMonth) {
     setState(() {
-      displayedMonth = newMonth;
+      selectedMonth = newMonth;
     });
   }
 
   @override
   void initState() {
     selectedDate = DateTime.now();
-    displayedMonth = DateTime(selectedDate.year, selectedDate.month, 1);
+    selectedMonth = DateTime(selectedDate.year, selectedDate.month, 1);
     theme = widget.theme ?? (widget.theme ?? LightTheme());
     super.initState();
   }
@@ -75,9 +75,9 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
         child: selectedView == 0
             ? AwesomeCalenDartDaysView(
                 selectedDate: selectedDate,
-                displayedMonth: displayedMonth,
+                selectedMonth: selectedMonth,
                 updateSelectedDate: updateSelectedDate,
-                updateDisplayedMonth: updateDisplayedMonth,
+                updateSelectedMonth: updateSelectedMonth,
                 updateSelectedView: updateSlectedView,
                 displayFullMonthName: widget.displayFullMonthName,
                 theme: theme,
@@ -85,8 +85,8 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
               )
             : selectedView == 1
                 ? AwesomeCalenDartMonthsView(
-                    displayedMonth: displayedMonth,
-                    updateDisplayedMonth: updateDisplayedMonth,
+                    selectedMonth: selectedMonth,
+                    updateSelectedMonth: updateSelectedMonth,
                     theme: theme,
                     locale: widget.locale,
                   )

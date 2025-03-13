@@ -3,15 +3,15 @@ import 'package:awesome_calendart/src/utils/date_utils.dart';
 import 'package:flutter/material.dart';
 
 class AwesomeCalenDartMonthsView extends StatefulWidget {
-  DateTime displayedMonth;
-  final Function(DateTime) updateDisplayedMonth;
+  DateTime selectedMonth;
+  final Function(DateTime) updateSelectedMonth;
   final AwesomeTheme theme;
   final LocaleType locale;
 
   AwesomeCalenDartMonthsView({
     super.key,
-    required this.displayedMonth,
-    required this.updateDisplayedMonth,
+    required this.selectedMonth,
+    required this.updateSelectedMonth,
     required this.theme,
     required this.locale,
   });
@@ -58,7 +58,7 @@ class _AwesomeCalenDartMonthsViewState
                   // TODO widget.updateSelectedView(1);
                 },
                 child: Text(
-                  widget.displayedMonth.year.toString(),
+                  widget.selectedMonth.year.toString(),
                   textAlign: TextAlign.center,
                   style: widget.theme.yearHeaderTextStyle,
                 ),

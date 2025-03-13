@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 
 class AwesomeCalenDartDaysView extends StatefulWidget {
   DateTime selectedDate;
-  DateTime displayedMonth;
+  DateTime selectedMonth;
   final Function(DateTime) updateSelectedDate;
-  final Function(DateTime) updateDisplayedMonth;
+  final Function(DateTime) updateSelectedMonth;
   final Function(int) updateSelectedView;
   final bool displayFullMonthName;
   final AwesomeTheme theme;
@@ -15,9 +15,9 @@ class AwesomeCalenDartDaysView extends StatefulWidget {
   AwesomeCalenDartDaysView({
     super.key,
     required this.selectedDate,
-    required this.displayedMonth,
+    required this.selectedMonth,
     required this.updateSelectedDate,
-    required this.updateDisplayedMonth,
+    required this.updateSelectedMonth,
     required this.updateSelectedView,
     required this.displayFullMonthName,
     required this.theme,
@@ -34,12 +34,12 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
 
   _getPreviousMonth() {
     DateTime newDate = AwesomeDateUtils.getPreviousMonth(widget.selectedDate);
-    widget.updateSelectedDate(newDate);
+    widget.updateSelectedMonth(newDate);
   }
 
   _getNextMonth() {
-    DateTime newMonth = AwesomeDateUtils.getNextMonth(widget.displayedMonth);
-    widget.updateDisplayedMonth(newMonth);
+    DateTime newMonth = AwesomeDateUtils.getNextMonth(widget.selectedMonth);
+    widget.updateSelectedMonth(newMonth);
   }
 
   _isDateSelected(int day, int month, int year) {
@@ -76,7 +76,7 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
                 },
                 child: Text(
                   AwesomeDateUtils.getMonthAndYear(
-                      widget.displayedMonth, widget.locale),
+                      widget.selectedMonth, widget.locale),
                   textAlign: TextAlign.center,
                   style: widget.theme.yearAndMonthHeaderTextStyle,
                 ),
@@ -111,16 +111,16 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
           childAspectRatio: 1.5,
           padding: const EdgeInsets.all(0),
           children: List<Widget>.generate(
-              AwesomeDateUtils.getDaysInMonth(widget.displayedMonth), (i) {
+              AwesomeDateUtils.getDaysInMonth(widget.selectedMonth), (i) {
             return GestureDetector(
               onTap: () {
-                widget.updateSelectedDate(DateTime(widget.displayedMonth.year,
-                    widget.displayedMonth.month, i + 1));
+                widget.updateSelectedDate(DateTime(widget.selectedMonth.year,
+                    widget.selectedMonth.month, i + 1));
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: _isDateSelected(i + 1, widget.displayedMonth.month,
-                          widget.displayedMonth.year)
+                  color: _isDateSelected(i + 1, widget.selectedMonth.month,
+                          widget.selectedMonth.year)
                       ? widget.theme.selectedDateBackgroundColor
                       : null,
                   shape: BoxShape.circle,
@@ -128,8 +128,8 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
                 child: Center(
                   child: Text(
                     "${i + 1}",
-                    style: _isDateSelected(i + 1, widget.displayedMonth.month,
-                            widget.displayedMonth.year)
+                    style: _isDateSelected(i + 1, widget.selectedMonth.month,
+                            widget.selectedMonth.year)
                         ? widget.theme.selectedDayTextStyle
                         : widget.theme.unselectedDayTextStyle,
                   ),
