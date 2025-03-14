@@ -33,7 +33,8 @@ AwesomeCalenDart(
     final TextStyle? weeksDaysTextStyle; // Custom text style for the week days (e.g., Sun, Mon, Tue, etc.)
     final TextStyle? selectedDaysTextStyle; // Custom text style for selected days in the calendar
     final TextStyle? unselectedDaysTextStyle; // Custom text style for unselected days in the calendar
-    final AwesomeTheme? theme; // Theme for customizing the appearance of the calendar
+    final AwesomeTheme? theme; // Theme for customizing the appearance of the calendar,
+    final List<DateTime>? eventMarkers; //list of dates with markers to highlight events, reminders, or special occasions.
 ),
 ```
 
@@ -59,12 +60,14 @@ Themes can customize the calendar.
 ```dart
 class AwesomeTheme {
     Color backgroundColor;
-    Color yearAndMonthColor;
-    Color weekDaysColor;
     Color buttonColor;
+    TextStyle yearAndMonthHeaderTextStyle;
+    TextStyle weekDaysTextStyle;
     Color selectedDateBackgroundColor;
-    Color selectedDayColor;
-    Color unselectedDayColor;
+    TextStyle selectedDayTextStyle;
+    TextStyle unselectedDayTextStyle;
+    Color eventMarkerColorOnUnselectedDay;
+    Color eventMarkerColorOnSelectedDay;
 }
 ```
 
