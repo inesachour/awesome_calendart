@@ -29,3 +29,7 @@
 ## 1.1.2
 
 * Better documentation
+
+## 1.2.0
+
+* Events marker feature 
