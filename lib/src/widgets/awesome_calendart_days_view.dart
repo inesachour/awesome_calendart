@@ -11,6 +11,7 @@ class AwesomeCalenDartDaysView extends StatefulWidget {
   final bool displayFullMonthName;
   final AwesomeTheme theme;
   final LocaleType locale;
+  final List<DateTime>? eventMarkers;
 
   AwesomeCalenDartDaysView({
     super.key,
@@ -22,6 +23,7 @@ class AwesomeCalenDartDaysView extends StatefulWidget {
     required this.displayFullMonthName,
     required this.theme,
     required this.locale,
+    this.eventMarkers,
   });
 
   @override
@@ -40,12 +42,6 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
   _getNextMonth() {
     DateTime newMonth = AwesomeDateUtils.getNextMonth(widget.selectedMonth);
     widget.updateSelectedMonth(newMonth);
-  }
-
-  _isDateSelected(int day, int month, int year) {
-    return day == widget.selectedDate.day &&
-        month == widget.selectedDate.month &&
-        year == widget.selectedDate.year;
   }
 
   @override
@@ -112,6 +108,16 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
           padding: const EdgeInsets.all(0),
           children: List<Widget>.generate(
               AwesomeDateUtils.getDaysInMonth(widget.selectedMonth), (i) {
+            bool isDateSelected = DateUtils.isSameDay(
+                widget.selectedDate,
+                DateTime(widget.selectedMonth.year, widget.selectedMonth.month,
+                    i + 1));
+
+            bool isEvent = widget.eventMarkers?.any((eventDate) =>
+                    eventDate.year == widget.selectedMonth.year &&
+                    eventDate.month == widget.selectedMonth.month &&
+                    eventDate.day == (i + 1)) ??
+                false; //TODO
             return GestureDetector(
               onTap: () {
                 widget.updateSelectedDate(DateTime(widget.selectedMonth.year,
@@ -119,20 +125,32 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: _isDateSelected(i + 1, widget.selectedMonth.month,
-                          widget.selectedMonth.year)
+                  color: isDateSelected
                       ? widget.theme.selectedDateBackgroundColor
                       : null,
                   shape: BoxShape.circle,
                 ),
-                child: Center(
-                  child: Text(
-                    "${i + 1}",
-                    style: _isDateSelected(i + 1, widget.selectedMonth.month,
-                            widget.selectedMonth.year)
-                        ? widget.theme.selectedDayTextStyle
-                        : widget.theme.unselectedDayTextStyle,
-                  ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "${i + 1}",
+                      style: isDateSelected
+                          ? widget.theme.selectedDayTextStyle
+                          : widget.theme.unselectedDayTextStyle,
+                    ),
+                    if (!isEvent)
+                      Container(
+                        width: 4,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: isDateSelected
+                              ? widget.theme.eventMarkerColorOnSelectedDay
+                              : widget.theme.eventMarkerColorOnUnselectedDay,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                  ],
                 ),
               ),
             );

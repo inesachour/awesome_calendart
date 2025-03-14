@@ -8,20 +8,26 @@ class AwesomeTheme {
   /// The color of the next and previous buttons in the calendar.
   Color buttonColor;
 
-  /// The color of the year and month header text.
+  /// The text style of the year and month header text.
   TextStyle yearAndMonthHeaderTextStyle;
 
-  /// The color of the weekdays text.
+  /// The text style of the weekdays text.
   TextStyle weekDaysTextStyle;
 
   /// The background color of a selected date.
   Color selectedDateBackgroundColor;
 
-  /// The color of the selected day text.
+  /// The text style of the selected day text.
   TextStyle selectedDayTextStyle;
 
-  /// The color of the unselected days texts.
+  /// The text style of the unselected days texts.
   TextStyle unselectedDayTextStyle;
+
+  /// The color of the event marker on unselected day.
+  Color eventMarkerColorOnUnselectedDay;
+
+  /// The color of the event marker on selected day.
+  Color eventMarkerColorOnSelectedDay;
 
   AwesomeTheme({
     this.backgroundColor = const Color(0xFFFFFFFF),
@@ -34,6 +40,8 @@ class AwesomeTheme {
     this.selectedDateBackgroundColor = const Color(0xFFF04D23),
     this.selectedDayTextStyle = const TextStyle(color: Colors.white),
     this.unselectedDayTextStyle = const TextStyle(color: Color(0xFF4A5660)),
+    this.eventMarkerColorOnSelectedDay = Colors.white,
+    this.eventMarkerColorOnUnselectedDay = const Color(0xFFF04D23),
   });
 }
 

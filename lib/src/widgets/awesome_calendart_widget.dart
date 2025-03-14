@@ -18,6 +18,9 @@ class AwesomeCalenDart extends StatefulWidget {
   /// A theme that can be applied to the calendar (default [LightTheme]).
   final AwesomeTheme? theme;
 
+  /// A list of dates with markers to highlight events, reminders, or special occasions.
+  final List<DateTime>? eventMarkers;
+
   const AwesomeCalenDart({
     super.key,
     this.elevation = 5,
@@ -25,6 +28,7 @@ class AwesomeCalenDart extends StatefulWidget {
     this.locale = LocaleType.en,
     this.displayFullMonthName = false,
     this.theme,
+    this.eventMarkers,
   });
 
   @override
