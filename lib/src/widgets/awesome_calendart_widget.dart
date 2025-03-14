@@ -1,5 +1,6 @@
 import 'package:awesome_calendart/awesome_calendart.dart';
 import 'package:awesome_calendart/src/widgets/awesome_calendart_days_view.dart';
+import 'package:awesome_calendart/src/widgets/awesome_calendart_months_view.dart';
 import 'package:flutter/material.dart';
 
 class AwesomeCalenDart extends StatefulWidget {
@@ -32,12 +33,13 @@ class AwesomeCalenDart extends StatefulWidget {
 }
 
 class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
-  late DateTime selectedMonth, selectedDate;
+  late DateTime selectedDate, selectedMonth;
+  late int selectedYear;
   late AwesomeTheme theme;
 
   int selectedView = 0;
 
-  updateSlectedView(int index) {
+  updateSelectedView(int index) {
     setState(() {
       selectedView = index;
     });
@@ -55,10 +57,17 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
     });
   }
 
+  updateSelectedYear(int newYear) {
+    setState(() {
+      selectedYear = newYear;
+    });
+  }
+
   @override
   void initState() {
     selectedDate = DateTime.now();
     selectedMonth = DateTime(selectedDate.year, selectedDate.month, 1);
+    selectedYear = selectedDate.year;
     theme = widget.theme ?? (widget.theme ?? LightTheme());
     super.initState();
   }
@@ -71,16 +80,25 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
       color: theme.backgroundColor,
       child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-          child: AwesomeCalenDartDaysView(
-            selectedDate: selectedDate,
-            selectedMonth: selectedMonth,
-            updateSelectedDate: updateSelectedDate,
-            updateSelectedMonth: updateSelectedMonth,
-            updateSelectedView: updateSlectedView,
-            displayFullMonthName: widget.displayFullMonthName,
-            theme: theme,
-            locale: widget.locale,
-          )),
+          child: selectedView == 0
+              ? AwesomeCalenDartDaysView(
+                  selectedDate: selectedDate,
+                  selectedMonth: selectedMonth,
+                  updateSelectedDate: updateSelectedDate,
+                  updateSelectedMonth: updateSelectedMonth,
+                  updateSelectedView: updateSelectedView,
+                  displayFullMonthName: widget.displayFullMonthName,
+                  theme: theme,
+                  locale: widget.locale,
+                )
+              : AwesomeCalenDartMonthsView(
+                  selectedMonth: selectedMonth,
+                  selectedYear: selectedYear,
+                  updateSelectedDate: updateSelectedDate,
+                  updateSelectedMonth: updateSelectedMonth,
+                  updateSelectedView: updateSelectedView,
+                  theme: theme,
+                  locale: widget.locale)),
     );
   }
 }
