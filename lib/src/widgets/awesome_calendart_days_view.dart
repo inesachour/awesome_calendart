@@ -3,8 +3,8 @@ import 'package:awesome_calendart/src/utils/date_utils.dart';
 import 'package:flutter/material.dart';
 
 class AwesomeCalenDartDaysView extends StatefulWidget {
-  DateTime selectedDate;
-  DateTime selectedMonth;
+  final DateTime selectedDate;
+  final DateTime selectedMonth;
   final Function(DateTime) updateSelectedDate;
   final Function(DateTime) updateSelectedMonth;
   final Function(int) updateSelectedView;
@@ -13,7 +13,7 @@ class AwesomeCalenDartDaysView extends StatefulWidget {
   final LocaleType locale;
   final List<DateTime>? eventMarkers;
 
-  AwesomeCalenDartDaysView({
+  const AwesomeCalenDartDaysView({
     super.key,
     required this.selectedDate,
     required this.selectedMonth,
