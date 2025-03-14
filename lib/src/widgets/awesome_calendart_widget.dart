@@ -1,6 +1,5 @@
 import 'package:awesome_calendart/awesome_calendart.dart';
 import 'package:awesome_calendart/src/widgets/awesome_calendart_days_view.dart';
-import 'package:awesome_calendart/src/widgets/awesome_calendart_months_view.dart';
 import 'package:flutter/material.dart';
 
 class AwesomeCalenDart extends StatefulWidget {
@@ -80,25 +79,16 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
       color: theme.backgroundColor,
       child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-          child: selectedView == 0
-              ? AwesomeCalenDartDaysView(
-                  selectedDate: selectedDate,
-                  selectedMonth: selectedMonth,
-                  updateSelectedDate: updateSelectedDate,
-                  updateSelectedMonth: updateSelectedMonth,
-                  updateSelectedView: updateSelectedView,
-                  displayFullMonthName: widget.displayFullMonthName,
-                  theme: theme,
-                  locale: widget.locale,
-                )
-              : AwesomeCalenDartMonthsView(
-                  selectedMonth: selectedMonth,
-                  selectedYear: selectedYear,
-                  updateSelectedDate: updateSelectedDate,
-                  updateSelectedMonth: updateSelectedMonth,
-                  updateSelectedView: updateSelectedView,
-                  theme: theme,
-                  locale: widget.locale)),
+          child: AwesomeCalenDartDaysView(
+            selectedDate: selectedDate,
+            selectedMonth: selectedMonth,
+            updateSelectedDate: updateSelectedDate,
+            updateSelectedMonth: updateSelectedMonth,
+            updateSelectedView: updateSelectedView,
+            displayFullMonthName: widget.displayFullMonthName,
+            theme: theme,
+            locale: widget.locale,
+          )),
     );
   }
 }

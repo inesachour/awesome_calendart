@@ -8,19 +8,19 @@ class AwesomeTheme {
   /// The color of the next and previous buttons in the calendar.
   Color buttonColor;
 
-  /// The color of the year and month header text (Days List View).
+  /// The color of the year and month header text.
   TextStyle yearAndMonthHeaderTextStyle;
 
-  /// The color of the weekdays text (Days List View).
+  /// The color of the weekdays text.
   TextStyle weekDaysTextStyle;
 
-  /// The background color of a selected date (Days List View).
+  /// The background color of a selected date.
   Color selectedDateBackgroundColor;
 
-  /// The color of the selected day text (Days List View).
+  /// The color of the selected day text.
   TextStyle selectedDayTextStyle;
 
-  /// The color of the unselected days texts (Days List View).
+  /// The color of the unselected days texts.
   TextStyle unselectedDayTextStyle;
 
   AwesomeTheme({
@@ -40,9 +40,15 @@ class AwesomeTheme {
 class LightTheme extends AwesomeTheme {}
 
 class DarkTheme extends AwesomeTheme {
+  @override
   Color backgroundColor = const Color(0xFF464646);
-  Color yearAndMonthColor = const Color(0xFFFFFFFF);
-  Color weekDaysColor = const Color(0xFFB5BEC6);
+  @override
   Color buttonColor = const Color(0xFFFFFFFF);
-  Color unselectedDayColor = const Color(0xFFFFFFFF);
+  @override
+  TextStyle yearAndMonthHeaderTextStyle =
+      const TextStyle(color: Color(0xFFFFFFFF));
+  @override
+  TextStyle weekDaysTextStyle = const TextStyle(color: Color(0xFFB5BEC6));
+  @override
+  TextStyle unselectedDayTextStyle = const TextStyle(color: Color(0xFFFFFFFF));
 }
