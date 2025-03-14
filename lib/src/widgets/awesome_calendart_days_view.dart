@@ -113,11 +113,13 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
                 DateTime(widget.selectedMonth.year, widget.selectedMonth.month,
                     i + 1));
 
-            bool isEvent = widget.eventMarkers?.any((eventDate) =>
-                    eventDate.year == widget.selectedMonth.year &&
-                    eventDate.month == widget.selectedMonth.month &&
-                    eventDate.day == (i + 1)) ??
-                false; //TODO
+            bool isEvent = widget.eventMarkers?.any((eventDate) {
+                  return eventDate.year == widget.selectedMonth.year &&
+                      eventDate.month == widget.selectedMonth.month &&
+                      eventDate.day == (i + 1);
+                }) ??
+                false;
+
             return GestureDetector(
               onTap: () {
                 widget.updateSelectedDate(DateTime(widget.selectedMonth.year,
@@ -139,7 +141,7 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
                           ? widget.theme.selectedDayTextStyle
                           : widget.theme.unselectedDayTextStyle,
                     ),
-                    if (!isEvent)
+                    if (isEvent)
                       Container(
                         width: 4,
                         height: 4,

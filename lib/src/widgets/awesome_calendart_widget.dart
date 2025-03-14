@@ -92,6 +92,7 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
             displayFullMonthName: widget.displayFullMonthName,
             theme: theme,
             locale: widget.locale,
+            eventMarkers: widget.eventMarkers,
           )),
     );
   }
