@@ -34,8 +34,11 @@ class AwesomeTheme {
     this.buttonColor = const Color(0xFF4A5660),
 
     // Days View
-    this.yearAndMonthHeaderTextStyle =
-        const TextStyle(color: Color(0xFF4A5660)),
+    this.yearAndMonthHeaderTextStyle = const TextStyle(
+      color: Color(0xFF4A5660),
+      fontWeight: FontWeight.bold,
+      fontSize: 18,
+    ),
     this.weekDaysTextStyle = const TextStyle(color: Color(0xFFB5BEC6)),
     this.selectedDateBackgroundColor = const Color(0xFFF04D23),
     this.selectedDayTextStyle = const TextStyle(color: Colors.white),
@@ -53,8 +56,11 @@ class DarkTheme extends AwesomeTheme {
   @override
   Color buttonColor = const Color(0xFFFFFFFF);
   @override
-  TextStyle yearAndMonthHeaderTextStyle =
-      const TextStyle(color: Color(0xFFFFFFFF));
+  TextStyle yearAndMonthHeaderTextStyle = const TextStyle(
+    color: Color(0xFFFFFFFF),
+    fontWeight: FontWeight.bold,
+    fontSize: 18,
+  );
   @override
   TextStyle weekDaysTextStyle = const TextStyle(color: Color(0xFFB5BEC6));
   @override
