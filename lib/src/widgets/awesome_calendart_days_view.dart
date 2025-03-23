@@ -53,6 +53,16 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
   }
 
   @override
+  void didUpdateWidget(covariant AwesomeCalenDartDaysView oldWidget) {
+    if (oldWidget.locale != widget.locale) {
+      weekDays = widget.displayFullMonthName
+          ? AwesomeDateUtils.getFullWeekdayNames(widget.locale)
+          : AwesomeDateUtils.getShortWeekdayNames(widget.locale);
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
