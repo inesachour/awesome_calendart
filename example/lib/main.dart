@@ -29,19 +29,19 @@ class _CalendarState extends State<Calendar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Center(child: Text("Awesome CalenDart")),
-        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 24),
-        backgroundColor: Colors.blue,
-      ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
             padding: const EdgeInsets.all(5),
+            child: AwesomeCalenDart(),
+          ),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+            padding: const EdgeInsets.all(5),
             child: AwesomeCalenDart(
-              locale: LocaleType.fr,
-              eventMarkers: [DateTime.now()],
+              theme: DarkTheme(),
             ),
           ),
         ],
