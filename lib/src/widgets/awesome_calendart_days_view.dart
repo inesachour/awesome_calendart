@@ -35,7 +35,7 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
   late List<String> weekDays;
 
   _getPreviousMonth() {
-    DateTime newDate = AwesomeDateUtils.getPreviousMonth(widget.selectedDate);
+    DateTime newDate = AwesomeDateUtils.getPreviousMonth(widget.selectedMonth);
     widget.updateSelectedMonth(newDate);
   }
 
