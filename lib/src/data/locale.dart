@@ -4,4 +4,5 @@ enum LocaleType {
   de,
   es,
   it,
+  pl,
 }
