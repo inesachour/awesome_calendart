@@ -39,6 +39,8 @@ class AwesomeDateUtils {
         return ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
       case LocaleType.it:
         return ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
+      case LocaleType.pl:
+        return ['Pon', 'Wto', 'Śro', 'Czw', 'Pią', 'Sob', 'Nie'];
     }
   }
 
@@ -93,6 +95,16 @@ class AwesomeDateUtils {
           'Venerdì',
           'Sabato',
           'Domenica'
+        ];
+      case LocaleType.pl:
+        return [
+          'Poniedziałek',
+          'Wtorek',
+          'Środa',
+          'Czwartek',
+          'Piątek',
+          'Sobota',
+          'Niedziela'
         ];
     }
   }
@@ -173,6 +185,21 @@ class AwesomeDateUtils {
           'Ottobre',
           'Novembre',
           'Dicembre'
+        ];
+      case LocaleType.pl:
+        return [
+          'Styczeń',
+          'Luty',
+          'Marzec',
+          'Kwiecień',
+          'Maj',
+          'Czerwiec',
+          'Lipiec',
+          'Sierpień',
+          'Wrzesień',
+          'Październik',
+          'Listopad',
+          'Grudzień'
         ];
     }
   }
