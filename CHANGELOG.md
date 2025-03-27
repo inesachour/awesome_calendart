@@ -33,3 +33,7 @@
 ## 1.2.0
 
 * Events marker feature 
+
+## 1.2.1
+
+* Fix previous month bug + Add Polish locale

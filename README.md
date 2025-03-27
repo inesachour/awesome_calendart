@@ -48,6 +48,7 @@ The following table lists the currently supported locales for the calendar:
 | es          | Spanish          |
 | de          | German           |
 | it          | Italian          |
+| pl          | Polish           |
 
 To use a locale, set it as follows:
 ```dart
