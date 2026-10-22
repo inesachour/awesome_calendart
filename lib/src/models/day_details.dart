@@ -17,6 +17,12 @@ class AwesomeDayDetails {
   /// Whether the day cannot be selected.
   final bool isDisabled;
 
+  /// Whether the day is one of the weekend days (`weekendDays`).
+  final bool isWeekend;
+
+  /// Whether the day has keyboard focus.
+  final bool isFocused;
+
   /// Whether the day belongs to the previous or next month (only shown when
   /// `showAdjacentMonthDays` is enabled).
   final bool isOutsideMonth;
@@ -38,6 +44,8 @@ class AwesomeDayDetails {
     required this.isSelected,
     required this.isToday,
     required this.isDisabled,
+    required this.isWeekend,
+    required this.isFocused,
     required this.isOutsideMonth,
     required this.isRangeStart,
     required this.isRangeEnd,
@@ -49,3 +57,73 @@ class AwesomeDayDetails {
 /// Builds the content of a day cell. See `AwesomeCalenDart.dayBuilder`.
 typedef AwesomeDayBuilder = Widget Function(
     BuildContext context, AwesomeDayDetails details);
+
+/// Builds the header of the calendar. See `AwesomeCalenDart.headerBuilder`.
+typedef AwesomeHeaderBuilder = Widget Function(
+    BuildContext context, AwesomeHeaderDetails details);
+
+/// Builds one weekday label. [weekday] is `DateTime.monday`..`DateTime.sunday`
+/// and [label] the localized name. See `AwesomeCalenDart.weekdayBuilder`.
+typedef AwesomeWeekdayBuilder = Widget Function(
+    BuildContext context, int weekday, String label);
+
+/// Builds the list of events shown under the grid. See
+/// `AwesomeCalenDart.eventListBuilder`.
+typedef AwesomeEventListBuilder = Widget Function(
+    BuildContext context, DateTime date, List<AwesomeEvent> events);
+
+/// Overrides how one particular day looks. See `AwesomeCalenDart.specialDates`.
+@immutable
+class AwesomeDayStyle {
+  /// Merged on top of the day's text style (unless the day is selected).
+  final TextStyle? textStyle;
+
+  /// The fill color of the day (unless the day is selected).
+  final Color? backgroundColor;
+
+  /// The color of a ring drawn around the day.
+  final Color? borderColor;
+
+  const AwesomeDayStyle(
+      {this.textStyle, this.backgroundColor, this.borderColor});
+}
+
+/// What `AwesomeCalenDart.headerBuilder` receives to draw the header.
+@immutable
+class AwesomeHeaderDetails {
+  /// The month shown (or, in week formats, the month of the focused day).
+  final DateTime month;
+
+  /// The title the calendar would show (affected by `monthYearFormatter`,
+  /// locale and `useLocaleDigits`).
+  final String title;
+
+  /// Whether going to the previous period is allowed (`minDate`).
+  final bool canGoPrevious;
+
+  /// Whether going to the next period is allowed (`maxDate`).
+  final bool canGoNext;
+
+  /// Shows the previous month (or week / two weeks).
+  final VoidCallback goToPrevious;
+
+  /// Shows the next month (or week / two weeks).
+  final VoidCallback goToNext;
+
+  /// Opens the month and year pickers, or null when they are disabled.
+  final VoidCallback? openPicker;
+
+  /// Cycles the calendar format, or null when `showFormatButton` is false.
+  final VoidCallback? changeFormat;
+
+  const AwesomeHeaderDetails({
+    required this.month,
+    required this.title,
+    required this.canGoPrevious,
+    required this.canGoNext,
+    required this.goToPrevious,
+    required this.goToNext,
+    required this.openPicker,
+    required this.changeFormat,
+  });
+}

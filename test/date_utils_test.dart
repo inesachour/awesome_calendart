@@ -39,4 +39,48 @@ void main() {
     expect(AwesomeDateUtils.isRtl(const Locale('ar')), isTrue);
     expect(AwesomeDateUtils.isRtl(const Locale('en')), isFalse);
   });
+
+  test('ISO week numbers', () {
+    expect(AwesomeDateUtils.isoWeekNumber(DateTime(2026, 1, 1)), 1);
+    expect(AwesomeDateUtils.isoWeekNumber(DateTime(2026, 10, 15)), 42);
+    expect(AwesomeDateUtils.isoWeekNumber(DateTime(2026, 12, 31)), 53);
+    expect(AwesomeDateUtils.isoWeekNumber(DateTime(2021, 1, 3)), 53);
+    expect(AwesomeDateUtils.isoWeekNumber(DateTime(2024, 12, 30)), 1);
+  });
+
+  test('start of week', () {
+    final thu = DateTime(2026, 10, 15);
+    expect(AwesomeDateUtils.startOfWeek(thu, DateTime.monday),
+        DateTime(2026, 10, 12));
+    expect(AwesomeDateUtils.startOfWeek(thu, DateTime.sunday),
+        DateTime(2026, 10, 11));
+    expect(AwesomeDateUtils.startOfWeek(thu, DateTime.thursday), thu);
+  });
+
+  test('locale digits follow intl, and can be turned off', () {
+    const egypt = Locale('ar', 'EG');
+    expect(AwesomeDateUtils.formatNumber(2026, egypt, localeDigits: false),
+        '2026');
+    expect(AwesomeDateUtils.formatNumber(2026, egypt, localeDigits: true),
+        '\u0662\u0660\u0662\u0666');
+    // Every Arabic locale gets Arabic-Indic digits, even the generic `ar`.
+    for (final ar in [const Locale('ar'), const Locale('ar', 'TN')]) {
+      expect(AwesomeDateUtils.formatNumber(2026, ar, localeDigits: true),
+          '\u0662\u0660\u0662\u0666');
+      expect(
+          AwesomeDateUtils.formatNumber(2026, ar, localeDigits: false), '2026');
+    }
+    expect(
+        AwesomeDateUtils.formatNumber(2026, const Locale('fa'),
+            localeDigits: true),
+        '\u06f2\u06f0\u06f2\u06f6');
+    expect(
+        AwesomeDateUtils.formatNumber(2026, const Locale('en'),
+            localeDigits: true),
+        '2026');
+    expect(
+        AwesomeDateUtils.formatNumber(7, const Locale('xx'),
+            localeDigits: true),
+        '7');
+  });
 }

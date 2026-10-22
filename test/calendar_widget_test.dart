@@ -226,8 +226,13 @@ void main() {
     testWidgets('right-to-left locales mirror the layout', (tester) async {
       await pumpCalendar(tester,
           AwesomeCalenDart(initialDate: _oct2026, locale: const Locale('ar')));
-      final dir = Directionality.of(tester.element(find.text('15')));
-      expect(dir, TextDirection.rtl);
+      final dir =
+          Directionality.of(tester.element(find.byType(AwesomeCalenDart)));
+      // Directionality is set inside the calendar, below this element.
+      final inner =
+          Directionality.of(tester.element(find.byType(GridView).first));
+      expect(inner, TextDirection.rtl);
+      expect(dir, TextDirection.ltr);
     });
 
     testWidgets('theme changes apply at runtime', (tester) async {

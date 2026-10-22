@@ -97,10 +97,53 @@ class _CalendarState extends State<Calendar> {
               ),
             ),
             section(
-              'Multiple selection (Arabic, right to left)',
+              'Multiple selection (Arabic, right to left, native digits)',
               const AwesomeCalenDart(
                 locale: Locale('ar'),
                 selectionMode: AwesomeSelectionMode.multiple,
+              ),
+            ),
+            section(
+              'Week format with format button and week numbers',
+              AwesomeCalenDart(
+                calendarFormat: AwesomeCalendarFormat.week,
+                showFormatButton: true,
+                showWeekNumbers: true,
+                events: [
+                  AwesomeEvent(date: now, color: Colors.blue),
+                  AwesomeEvent(
+                      date: now.add(const Duration(days: 2)),
+                      color: Colors.green),
+                ],
+              ),
+            ),
+            section(
+              'Event list, special days and rules (weekdays only, no past)',
+              AwesomeCalenDart(
+                showEventList: true,
+                minDate: now,
+                selectableDayPredicate: (day) =>
+                    day.weekday < DateTime.saturday,
+                weekendDays: const [DateTime.saturday, DateTime.sunday],
+                theme: const LightTheme().copyWith(
+                  weekendDayTextStyle: const TextStyle(color: Colors.redAccent),
+                ),
+                specialDates: {
+                  DateTime(now.year, now.month, 25): const AwesomeDayStyle(
+                    backgroundColor: Color(0x3300AA55),
+                    textStyle: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                },
+                events: [
+                  AwesomeEvent(
+                      date: now,
+                      color: Colors.blue,
+                      label: '09:30  Team stand-up'),
+                  AwesomeEvent(
+                      date: now,
+                      color: Colors.green,
+                      label: '13:00  Lunch with Sam'),
+                ],
               ),
             ),
             section(

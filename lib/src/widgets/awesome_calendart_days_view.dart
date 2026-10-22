@@ -10,6 +10,8 @@ class AwesomeCalenDartWeekdays extends StatelessWidget {
   final AwesomeTheme theme;
   final int firstDayOfWeek;
   final bool full;
+  final bool showWeekNumbers;
+  final AwesomeWeekdayBuilder? weekdayBuilder;
 
   const AwesomeCalenDartWeekdays({
     super.key,
@@ -17,6 +19,8 @@ class AwesomeCalenDartWeekdays extends StatelessWidget {
     required this.theme,
     required this.firstDayOfWeek,
     required this.full,
+    this.showWeekNumbers = false,
+    this.weekdayBuilder,
   });
 
   @override
@@ -27,21 +31,25 @@ class AwesomeCalenDartWeekdays extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
-          for (final name in names)
+          if (showWeekNumbers) const Expanded(child: SizedBox.shrink()),
+          for (var i = 0; i < 7; i++)
             Expanded(
-              child: Center(
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 3),
-                    child: Text(
-                      name,
-                      maxLines: 1,
-                      style: theme.weekDaysTextStyle,
+              child: weekdayBuilder != null
+                  ? weekdayBuilder!(
+                      context, (firstDayOfWeek - 1 + i) % 7 + 1, names[i])
+                  : Center(
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 3),
+                          child: Text(
+                            names[i],
+                            maxLines: 1,
+                            style: theme.weekDaysTextStyle,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
             ),
         ],
       ),
@@ -49,64 +57,93 @@ class AwesomeCalenDartWeekdays extends StatelessWidget {
   }
 }
 
-/// The grid of days of one month.
+/// The grid of days of one period: a month, two weeks or one week.
 class AwesomeCalenDartDaysView extends StatelessWidget {
-  final DateTime month;
+  /// The first cell of the grid (the first day of the first row).
+  final DateTime periodStart;
+
+  /// The number of weeks shown.
+  final int rowCount;
+
+  /// The displayed month in the month format (days of other months are dimmed
+  /// or hidden), or null in the week formats.
+  final DateTime? month;
+
   final Locale locale;
   final AwesomeTheme theme;
   final int firstDayOfWeek;
+  final Set<int> weekendDays;
   final bool showAdjacentMonthDays;
+  final bool showWeekNumbers;
   final bool highlightToday;
+  final bool localeDigits;
   final double aspectRatio;
   final Set<DateTime> selectedDates;
   final DateTime? rangeStart;
   final DateTime? rangeEnd;
+  final DateTime? focusedDate;
   final bool Function(DateTime date) isDisabled;
   final Map<DateTime, List<AwesomeEvent>> events;
+  final Map<DateTime, AwesomeDayStyle> specialDates;
   final AwesomeDayBuilder? dayBuilder;
   final ValueChanged<DateTime> onDayTap;
 
   const AwesomeCalenDartDaysView({
     super.key,
+    required this.periodStart,
+    required this.rowCount,
     required this.month,
     required this.locale,
     required this.theme,
     required this.firstDayOfWeek,
+    required this.weekendDays,
     required this.showAdjacentMonthDays,
+    required this.showWeekNumbers,
     required this.highlightToday,
+    required this.localeDigits,
     required this.aspectRatio,
     required this.selectedDates,
     required this.rangeStart,
     required this.rangeEnd,
+    required this.focusedDate,
     required this.isDisabled,
     required this.events,
+    required this.specialDates,
     required this.dayBuilder,
     required this.onDayTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final offset =
-        AwesomeDateUtils.getFirstWeekdayOffset(month, firstDayOfWeek);
-    final daysInMonth = AwesomeDateUtils.getDaysInMonth(month);
-    final cells = showAdjacentMonthDays
-        ? ((offset + daysInMonth) / 7).ceil() * 7
-        : offset + daysInMonth;
     final today = AwesomeDateUtils.dateOnly(DateTime.now());
     final hasRange =
         rangeStart != null && rangeEnd != null && rangeStart != rangeEnd;
+    // Thursday decides which ISO week a row belongs to.
+    final thursdayColumn = (DateTime.thursday - firstDayOfWeek + 7) % 7;
 
-    return GridView.count(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      crossAxisCount: 7,
-      childAspectRatio: aspectRatio,
-      padding: EdgeInsets.zero,
-      children: List<Widget>.generate(cells, (cell) {
-        // DateTime normalizes days outside 1..N into the adjacent months.
-        final date = DateTime(month.year, month.month, 1 - offset + cell);
-        final outside = date.month != month.month;
-        if (outside && !showAdjacentMonthDays) return const SizedBox.shrink();
+    final children = <Widget>[];
+    for (var row = 0; row < rowCount; row++) {
+      DateTime dateAt(int col) => DateTime(
+          periodStart.year, periodStart.month, periodStart.day + row * 7 + col);
+
+      if (showWeekNumbers) {
+        final week = AwesomeDateUtils.isoWeekNumber(dateAt(thursdayColumn));
+        children.add(Center(
+          child: Text(
+            AwesomeDateUtils.formatNumber(week, locale,
+                localeDigits: localeDigits),
+            style: theme.weekNumberTextStyle,
+          ),
+        ));
+      }
+
+      for (var col = 0; col < 7; col++) {
+        final date = dateAt(col);
+        final outside = month != null && date.month != month!.month;
+        if (outside && !showAdjacentMonthDays) {
+          children.add(const SizedBox.shrink());
+          continue;
+        }
 
         final isRangeStart = rangeStart == date;
         final isRangeEnd = rangeEnd == date;
@@ -116,6 +153,8 @@ class AwesomeCalenDartDaysView extends StatelessWidget {
               selectedDates.contains(date) || isRangeStart || isRangeEnd,
           isToday: date == today,
           isDisabled: isDisabled(date),
+          isWeekend: weekendDays.contains(date.weekday),
+          isFocused: focusedDate == date,
           isOutsideMonth: outside,
           isRangeStart: isRangeStart,
           isRangeEnd: isRangeEnd,
@@ -124,34 +163,49 @@ class AwesomeCalenDartDaysView extends StatelessWidget {
           events: events[date] ?? const [],
         );
 
-        return _DayCell(
+        children.add(_DayCell(
           details: details,
+          style: specialDates[date],
           theme: theme,
           locale: locale,
           highlightToday: highlightToday,
+          localeDigits: localeDigits,
           hasRange: hasRange,
           dayBuilder: dayBuilder,
           onTap: () => onDayTap(date),
-        );
-      }),
+        ));
+      }
+    }
+
+    return GridView.count(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      crossAxisCount: showWeekNumbers ? 8 : 7,
+      childAspectRatio: aspectRatio,
+      padding: EdgeInsets.zero,
+      children: children,
     );
   }
 }
 
 class _DayCell extends StatelessWidget {
   final AwesomeDayDetails details;
+  final AwesomeDayStyle? style;
   final AwesomeTheme theme;
   final Locale locale;
   final bool highlightToday;
+  final bool localeDigits;
   final bool hasRange;
   final AwesomeDayBuilder? dayBuilder;
   final VoidCallback onTap;
 
   const _DayCell({
     required this.details,
+    required this.style,
     required this.theme,
     required this.locale,
     required this.highlightToday,
+    required this.localeDigits,
     required this.hasRange,
     required this.dayBuilder,
     required this.onTap,
@@ -159,10 +213,19 @@ class _DayCell extends StatelessWidget {
 
   TextStyle get _textStyle {
     if (details.isSelected) return theme.selectedDayTextStyle;
-    if (details.isDisabled) return theme.disabledDayTextStyle;
-    if (details.isInRange) return theme.rangeDayTextStyle;
-    if (details.isOutsideMonth) return theme.adjacentMonthDayTextStyle;
-    return theme.unselectedDayTextStyle;
+    TextStyle base;
+    if (details.isDisabled) {
+      base = theme.disabledDayTextStyle;
+    } else if (details.isInRange) {
+      base = theme.rangeDayTextStyle;
+    } else if (details.isOutsideMonth) {
+      base = theme.adjacentMonthDayTextStyle;
+    } else if (details.isWeekend) {
+      base = theme.weekendDayTextStyle ?? theme.unselectedDayTextStyle;
+    } else {
+      base = theme.unselectedDayTextStyle;
+    }
+    return style?.textStyle == null ? base : base.merge(style!.textStyle);
   }
 
   /// The strip behind the days of a selected range.
@@ -212,8 +275,26 @@ class _DayCell extends StatelessWidget {
     final d = details.date;
     final labels =
         details.events.map((e) => e.label).whereType<String>().join(', ');
-    return '${d.day} ${AwesomeDateUtils.monthName(d.month, locale)} ${d.year}'
+    final day = AwesomeDateUtils.formatNumber(d.day, locale,
+        localeDigits: localeDigits);
+    final year = AwesomeDateUtils.formatNumber(d.year, locale,
+        localeDigits: localeDigits);
+    return '$day ${AwesomeDateUtils.monthName(d.month, locale)} $year'
         '${labels.isEmpty ? '' : ', $labels'}';
+  }
+
+  Border? get _border {
+    if (details.isFocused) {
+      return Border.all(color: theme.focusedDayBorderColor, width: 2);
+    }
+    if (highlightToday && details.isToday && !details.isSelected) {
+      return Border.all(
+          color: theme.todayBorderColor, width: theme.todayBorderWidth);
+    }
+    if (!details.isSelected && style?.borderColor != null) {
+      return Border.all(color: style!.borderColor!);
+    }
+    return null;
   }
 
   @override
@@ -222,21 +303,16 @@ class _DayCell extends StatelessWidget {
     if (dayBuilder != null) {
       content = dayBuilder!(context, details);
     } else {
-      final showToday =
-          highlightToday && details.isToday && !details.isSelected;
       content = Stack(
         fit: StackFit.expand,
         children: [
           if (_rangeBand != null) _rangeBand!,
           Ink(
             decoration: BoxDecoration(
-              color:
-                  details.isSelected ? theme.selectedDateBackgroundColor : null,
-              border: showToday
-                  ? Border.all(
-                      color: theme.todayBorderColor,
-                      width: theme.todayBorderWidth)
-                  : null,
+              color: details.isSelected
+                  ? theme.selectedDateBackgroundColor
+                  : style?.backgroundColor,
+              border: _border,
               shape: BoxShape.circle,
             ),
             child: Center(
@@ -245,7 +321,11 @@ class _DayCell extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('${details.date.day}', style: _textStyle),
+                    Text(
+                      AwesomeDateUtils.formatNumber(details.date.day, locale,
+                          localeDigits: localeDigits),
+                      style: _textStyle,
+                    ),
                     if (details.events.isNotEmpty) _markers(),
                   ],
                 ),
@@ -265,6 +345,8 @@ class _DayCell extends StatelessWidget {
       child: Material(
         type: MaterialType.transparency,
         child: InkWell(
+          // Keyboard focus is handled by the grid as a whole.
+          canRequestFocus: false,
           customBorder: const CircleBorder(),
           onTap: details.isDisabled ? null : onTap,
           child: content,

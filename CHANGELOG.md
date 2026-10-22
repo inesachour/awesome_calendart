@@ -55,7 +55,15 @@
 * Today highlight, adjacent month days, month and year pickers (tap the header), swipe to change month with animation.
 * `AwesomeEvent` for colored markers with screen reader labels.
 * Customization: `dayBuilder`, `monthYearFormatter`, `previousMonthIcon` / `nextMonthIcon`, `padding`, `dayAspectRatio`, `animationDuration` / `animationCurve`, `enableSwipe`, `enableMonthYearPicker`, and new `AwesomeTheme` fields.
-* `AwesomeTheme.copyWith`.
+* `AwesomeTheme.copyWith`, `==`, `hashCode` and `lerp`; `AwesomeTheme` is now a `ThemeExtension` (register it in `ThemeData.extensions`).
+* Calendar formats: `calendarFormat` (month, two weeks, week) with an optional format button (`showFormatButton`, `onFormatChanged`).
+* `showWeekNumbers` (ISO week numbers), `weekendDays` with `AwesomeTheme.weekendDayTextStyle`, and `specialDates` with `AwesomeDayStyle` for per-day styling.
+* `selectableDayPredicate`, and `minRangeLength` / `maxRangeLength` for range selection.
+* `showEventList` and `eventListBuilder` to list the selected day's events under the calendar.
+* Numbers follow the locale's digits by default (Arabic-Indic for Arabic, Persian for `fa`, ...); set `useLocaleDigits: false` to always show 0-9.
+* Keyboard navigation (arrow keys, Enter / Space, Page Up / Page Down) with a focus ring.
+* `headerBuilder` and `weekdayBuilder`; `AwesomeDayDetails` gains `isWeekend` and `isFocused`.
+* `AwesomeCalenDartController.focusedDate` and `jumpToDate`.
 * Screen reader support and font scaling.
 
 **Fixes**

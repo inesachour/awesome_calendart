@@ -13,6 +13,7 @@ class AwesomeCalenDartHeader extends StatelessWidget {
   final String? nextTooltip;
   final Widget? previousIcon;
   final Widget? nextIcon;
+  final Widget? trailing;
 
   const AwesomeCalenDartHeader({
     super.key,
@@ -25,6 +26,7 @@ class AwesomeCalenDartHeader extends StatelessWidget {
     this.nextTooltip,
     this.previousIcon,
     this.nextIcon,
+    this.trailing,
   });
 
   Widget _icon(Widget? custom, IconData data, bool enabled) {
@@ -60,6 +62,7 @@ class AwesomeCalenDartHeader extends StatelessWidget {
           onPressed: onNext,
           icon: _icon(nextIcon, Icons.arrow_forward_ios, onNext != null),
         ),
+        if (trailing != null) trailing!,
       ],
     );
   }
@@ -144,6 +147,7 @@ class AwesomeCalenDartMonthPicker extends StatelessWidget {
   final VoidCallback onYearTap;
   final Widget? previousIcon;
   final Widget? nextIcon;
+  final bool localeDigits;
 
   const AwesomeCalenDartMonthPicker({
     super.key,
@@ -158,7 +162,11 @@ class AwesomeCalenDartMonthPicker extends StatelessWidget {
     this.maxMonth,
     this.previousIcon,
     this.nextIcon,
+    this.localeDigits = false,
   });
+
+  String _n(int v) =>
+      AwesomeDateUtils.formatNumber(v, locale, localeDigits: localeDigits);
 
   @override
   Widget build(BuildContext context) {
@@ -168,13 +176,13 @@ class AwesomeCalenDartMonthPicker extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         AwesomeCalenDartHeader(
-          title: '$year',
+          title: _n(year),
           theme: theme,
           onTitleTap: onYearTap,
           onPrevious: canPrevious ? () => onYearChanged(year - 1) : null,
           onNext: canNext ? () => onYearChanged(year + 1) : null,
-          previousTooltip: '${year - 1}',
-          nextTooltip: '${year + 1}',
+          previousTooltip: _n(year - 1),
+          nextTooltip: _n(year + 1),
           previousIcon: previousIcon,
           nextIcon: nextIcon,
         ),
@@ -209,6 +217,8 @@ class AwesomeCalenDartYearPicker extends StatelessWidget {
   final ValueChanged<int> onYearSelected;
   final Widget? previousIcon;
   final Widget? nextIcon;
+  final Locale locale;
+  final bool localeDigits;
 
   const AwesomeCalenDartYearPicker({
     super.key,
@@ -221,7 +231,12 @@ class AwesomeCalenDartYearPicker extends StatelessWidget {
     this.maxYear,
     this.previousIcon,
     this.nextIcon,
+    this.locale = const Locale('en'),
+    this.localeDigits = false,
   });
+
+  String _n(int v) =>
+      AwesomeDateUtils.formatNumber(v, locale, localeDigits: localeDigits);
 
   @override
   Widget build(BuildContext context) {
@@ -232,7 +247,7 @@ class AwesomeCalenDartYearPicker extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         AwesomeCalenDartHeader(
-          title: '$startYear - $endYear',
+          title: '${_n(startYear)} - ${_n(endYear)}',
           theme: theme,
           onPrevious:
               canPrevious ? () => onPageChanged(startYear - pageSize) : null,
@@ -242,7 +257,7 @@ class AwesomeCalenDartYearPicker extends StatelessWidget {
         ),
         _PickerGrid(
           theme: theme,
-          labels: List.generate(pageSize, (i) => '${startYear + i}'),
+          labels: List.generate(pageSize, (i) => _n(startYear + i)),
           selectedIndex: selectedYear >= startYear && selectedYear <= endYear
               ? selectedYear - startYear
               : null,

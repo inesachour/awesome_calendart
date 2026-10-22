@@ -182,6 +182,72 @@ void main() {
     );
   });
 
+  testWidgets('weeknumbers', (tester) async {
+    await _shot(
+      tester,
+      'weeknumbers',
+      AwesomeCalenDart(
+        initialDate: _month,
+        showWeekNumbers: true,
+        theme: const LightTheme().copyWith(
+          weekendDayTextStyle: const TextStyle(color: Color(0xFFE5484D)),
+        ),
+        specialDates: {
+          DateTime(2026, 10, 9): const AwesomeDayStyle(
+            borderColor: Color(0xFF2E9E6B),
+            textStyle: TextStyle(
+                color: Color(0xFF2E9E6B), fontWeight: FontWeight.bold),
+          ),
+          DateTime(2026, 10, 28): const AwesomeDayStyle(
+            backgroundColor: Color(0x332E9E6B),
+            textStyle: TextStyle(
+                color: Color(0xFF2E9E6B), fontWeight: FontWeight.bold),
+          ),
+        },
+      ),
+    );
+  });
+
+  testWidgets('week', (tester) async {
+    await _shot(
+      tester,
+      'week',
+      AwesomeCalenDart(
+        initialDate: _month,
+        calendarFormat: AwesomeCalendarFormat.week,
+        showFormatButton: true,
+        events: events,
+      ),
+    );
+  });
+
+  testWidgets('agenda', (tester) async {
+    await _shot(
+      tester,
+      'agenda',
+      AwesomeCalenDart(
+        initialDate: _month,
+        showEventList: true,
+        events: [
+          AwesomeEvent(
+              date: DateTime(2026, 10, 15),
+              color: Colors.blue,
+              label: '09:30  Team stand-up'),
+          AwesomeEvent(
+              date: DateTime(2026, 10, 15),
+              color: Colors.green,
+              label: '13:00  Lunch with Sam'),
+          AwesomeEvent(
+              date: DateTime(2026, 10, 15),
+              color: Colors.purple,
+              label: '18:45  Yoga class'),
+          AwesomeEvent(date: DateTime(2026, 10, 8), color: Colors.amber),
+          AwesomeEvent(date: DateTime(2026, 10, 21), color: Colors.blue),
+        ],
+      ),
+    );
+  });
+
   testWidgets('picker', (tester) async {
     await _shot(
       tester,

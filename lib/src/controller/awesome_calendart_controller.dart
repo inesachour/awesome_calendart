@@ -19,16 +19,20 @@ class AwesomeCalenDartController extends ChangeNotifier {
   /// Creates a controller showing the month of [initialMonth] (default: the
   /// current month). The selection starts empty.
   AwesomeCalenDartController({DateTime? initialMonth})
-      : _visibleMonth =
+      : _focusedDate =
             AwesomeDateUtils.firstOfMonth(initialMonth ?? DateTime.now());
 
-  DateTime _visibleMonth;
+  DateTime _focusedDate;
   List<DateTime> _selectedDates = const [];
   DateTime? _rangeStart;
   DateTime? _rangeEnd;
 
   /// The first day of the month currently displayed.
-  DateTime get visibleMonth => _visibleMonth;
+  DateTime get visibleMonth => AwesomeDateUtils.firstOfMonth(_focusedDate);
+
+  /// The day the calendar is centered on. In the month format this is a day of
+  /// the visible month; in the week formats it is a day of the visible week.
+  DateTime get focusedDate => _focusedDate;
 
   /// The selected dates in `single` and `multiple` modes (sorted).
   List<DateTime> get selectedDates => _selectedDates;
@@ -52,17 +56,26 @@ class AwesomeCalenDartController extends ChangeNotifier {
   /// Shows the month containing [date].
   void jumpToMonth(DateTime date) {
     final month = AwesomeDateUtils.firstOfMonth(date);
-    if (month == _visibleMonth) return;
-    _visibleMonth = month;
+    if (month == _focusedDate) return;
+    _focusedDate = month;
+    notifyListeners();
+  }
+
+  /// Shows the period (month, two weeks or week, depending on the calendar's
+  /// format) containing [date].
+  void jumpToDate(DateTime date) {
+    final day = AwesomeDateUtils.dateOnly(date);
+    if (day == _focusedDate) return;
+    _focusedDate = day;
     notifyListeners();
   }
 
   /// Shows the next month.
-  void nextMonth() => jumpToMonth(AwesomeDateUtils.getNextMonth(_visibleMonth));
+  void nextMonth() => jumpToMonth(AwesomeDateUtils.getNextMonth(visibleMonth));
 
   /// Shows the previous month.
   void previousMonth() =>
-      jumpToMonth(AwesomeDateUtils.getPreviousMonth(_visibleMonth));
+      jumpToMonth(AwesomeDateUtils.getPreviousMonth(visibleMonth));
 
   /// Selects only [date]. When [showMonth] is true (default) the calendar
   /// also jumps to the month of [date].
@@ -78,7 +91,7 @@ class AwesomeCalenDartController extends ChangeNotifier {
     _rangeStart = null;
     _rangeEnd = null;
     if (showMonth && unique.isNotEmpty) {
-      _visibleMonth = AwesomeDateUtils.firstOfMonth(unique.first);
+      _focusedDate = unique.first;
     }
     notifyListeners();
   }
@@ -97,7 +110,7 @@ class AwesomeCalenDartController extends ChangeNotifier {
     _selectedDates = const [];
     _rangeStart = s;
     _rangeEnd = e;
-    if (showMonth) _visibleMonth = AwesomeDateUtils.firstOfMonth(s);
+    if (showMonth) _focusedDate = s;
     notifyListeners();
   }
 

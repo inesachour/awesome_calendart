@@ -10,3 +10,15 @@ enum AwesomeSelectionMode {
   /// end; tapping again starts a new range.
   range,
 }
+
+/// How much of the calendar is visible at once.
+enum AwesomeCalendarFormat {
+  /// A whole month (4 to 6 rows).
+  month,
+
+  /// Two weeks.
+  twoWeeks,
+
+  /// One week.
+  week,
+}

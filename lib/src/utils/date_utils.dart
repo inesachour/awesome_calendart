@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart' show dateTimeSymbolMap;
 import 'package:intl/date_symbols.dart';
-import 'package:intl/intl.dart' show Bidi, toBeginningOfSentenceCase;
+import 'package:intl/intl.dart'
+    show Bidi, NumberFormat, toBeginningOfSentenceCase;
 
 /// Date helpers and locale-aware names used by the calendar.
 class AwesomeDateUtils {
@@ -42,8 +43,55 @@ class AwesomeDateUtils {
   static bool isSameMonth(DateTime a, DateTime b) =>
       a.year == b.year && a.month == b.month;
 
-  static String getMonthAndYear(DateTime date, Locale locale) {
-    return "${monthName(date.month, locale)} ${date.year}";
+  static String getMonthAndYear(DateTime date, Locale locale,
+      {bool localeDigits = false}) {
+    return "${monthName(date.month, locale)} "
+        "${formatNumber(date.year, locale, localeDigits: localeDigits)}";
+  }
+
+  /// Formats [value] with the digits of [locale] when [localeDigits] is true,
+  /// and with 0-9 otherwise.
+  ///
+  /// The digits are the ones `intl` defines for the locale (Persian for `fa`,
+  /// Bengali for `bn`, ...). Arabic is the exception: `intl` uses 0-9 for the
+  /// generic `ar`, but every Arabic locale shows Arabic-Indic digits here.
+  static String formatNumber(int value, Locale locale,
+      {required bool localeDigits}) {
+    if (!localeDigits) return '$value';
+    final candidates = [
+      locale.toString(),
+      if (locale.countryCode != null)
+        '${locale.languageCode}_${locale.countryCode}',
+      locale.languageCode,
+    ];
+    for (final key in candidates) {
+      if (NumberFormat.localeExists(key)) {
+        // intl's generic `ar` has Western digits; ar_EG has Arabic-Indic ones.
+        final resolved = key == 'ar' ? 'ar_EG' : key;
+        return NumberFormat('###0', resolved).format(value);
+      }
+    }
+    return '$value';
+  }
+
+  /// The first day of the week containing [date], when weeks start on
+  /// [firstDayOfWeek].
+  static DateTime startOfWeek(DateTime date, int firstDayOfWeek) {
+    final offset = (date.weekday - firstDayOfWeek + 7) % 7;
+    return DateTime(date.year, date.month, date.day - offset);
+  }
+
+  /// The ISO 8601 week number (1-53) of [date].
+  static int isoWeekNumber(DateTime date) {
+    // The week belongs to the year of its Thursday.
+    final thursday = DateTime.utc(date.year, date.month, date.day)
+        .add(Duration(days: DateTime.thursday - date.weekday));
+    final firstThursday = DateTime.utc(thursday.year, 1, 1).add(Duration(
+        days: (DateTime.thursday -
+                DateTime.utc(thursday.year, 1, 1).weekday +
+                7) %
+            7));
+    return 1 + thursday.difference(firstThursday).inDays ~/ 7;
   }
 
   static DateTime getNextMonth(DateTime date) {
