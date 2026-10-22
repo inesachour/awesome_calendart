@@ -26,7 +26,7 @@ A highly customizable calendar widget for Flutter: single, multiple and range se
 
 <p align="center"><sub>
 Range selection with limits · multiple selection with adjacent days · week numbers, weekends and special dates<br>
-Week format · event list under the calendar · month and year picker<br>
+Week and two-week formats · event list under the calendar · month and year picker<br>
 Arabic (right to left, native digits) · custom theme and <code>dayBuilder</code> · dark theme with colored events
 </sub></p>
 

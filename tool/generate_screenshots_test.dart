@@ -38,6 +38,7 @@ Future<void> _shot(
   Widget child, {
   Color background = const Color(0xFFEEF1F4),
   double width = 360,
+  double? height = 420,
   String fontFamily = 'Roboto',
   Future<void> Function()? before,
 }) async {
@@ -59,7 +60,9 @@ Future<void> _shot(
           key: key,
           child: Container(
             width: width,
+            height: height,
             color: background,
+            alignment: height == null ? null : Alignment.center,
             padding: const EdgeInsets.all(24),
             child: child,
           ),
@@ -126,6 +129,7 @@ void main() {
         ],
       ),
       width: 800,
+      height: null, // the overview is wider and sized by its content
     );
   });
 
@@ -212,11 +216,23 @@ void main() {
     await _shot(
       tester,
       'week',
-      AwesomeCalenDart(
-        initialDate: _month,
-        calendarFormat: AwesomeCalendarFormat.week,
-        showFormatButton: true,
-        events: events,
+      Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AwesomeCalenDart(
+            initialDate: _month,
+            calendarFormat: AwesomeCalendarFormat.week,
+            showFormatButton: true,
+            events: events,
+          ),
+          const SizedBox(height: 16),
+          AwesomeCalenDart(
+            initialDate: _month,
+            calendarFormat: AwesomeCalendarFormat.twoWeeks,
+            showFormatButton: true,
+            events: events,
+          ),
+        ],
       ),
     );
   });
