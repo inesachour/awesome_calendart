@@ -1,211 +1,89 @@
-import 'package:awesome_calendart/src/data/locale.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart' show dateTimeSymbolMap;
+import 'package:intl/date_symbols.dart';
+import 'package:intl/intl.dart' show Bidi, toBeginningOfSentenceCase;
 
+/// Date helpers and locale-aware names used by the calendar.
 class AwesomeDateUtils {
-  static String getMonthAndYear(DateTime date, LocaleType locale) {
-    List<String> months = getMonthsNames(locale);
-    return "${months[date.month - 1]} ${date.year}";
+  static Map<String, DateSymbols>? _symbols;
+
+  /// The `intl` symbols for [locale], falling back from
+  /// `language_COUNTRY` to `language`, and finally to English.
+  static DateSymbols symbolsFor(Locale locale) {
+    final map = _symbols ??= dateTimeSymbolMap();
+    final candidates = [
+      locale.toString(),
+      if (locale.countryCode != null)
+        '${locale.languageCode}_${locale.countryCode}',
+      locale.languageCode,
+    ];
+    for (final key in candidates) {
+      final found = map[key];
+      if (found != null) return found;
+    }
+    return map['en']!;
+  }
+
+  /// Whether [locale] is written right to left.
+  static bool isRtl(Locale locale) => Bidi.isRtlLanguage(locale.languageCode);
+
+  static String _cap(String s, Locale locale) =>
+      toBeginningOfSentenceCase(s, locale.toString()) ?? s;
+
+  /// Removes the date only: the time part is dropped.
+  static DateTime dateOnly(DateTime date) =>
+      DateTime(date.year, date.month, date.day);
+
+  /// The first day of the month of [date].
+  static DateTime firstOfMonth(DateTime date) =>
+      DateTime(date.year, date.month, 1);
+
+  /// Whether two dates are in the same month of the same year.
+  static bool isSameMonth(DateTime a, DateTime b) =>
+      a.year == b.year && a.month == b.month;
+
+  static String getMonthAndYear(DateTime date, Locale locale) {
+    return "${monthName(date.month, locale)} ${date.year}";
   }
 
   static DateTime getNextMonth(DateTime date) {
-    if (date.month != 12) {
-      return DateTime(date.year, date.month + 1, 1);
-    } else {
-      return DateTime(date.year + 1, 1, 1);
-    }
+    return DateTime(date.year, date.month + 1, 1);
   }
 
   static DateTime getPreviousMonth(DateTime date) {
-    if (date.month != 1) {
-      return DateTime(date.year, date.month - 1, 1);
-    } else {
-      return DateTime(date.year - 1, 12, 1);
-    }
+    return DateTime(date.year, date.month - 1, 1);
   }
 
   static int getDaysInMonth(DateTime date) {
     return DateUtils.getDaysInMonth(date.year, date.month);
   }
 
-  /// Number of cells before the 1st of the month in a Monday-first week.
-  static int getFirstWeekdayOffset(DateTime month) {
-    return DateTime(month.year, month.month, 1).weekday - 1;
+  /// Number of cells before the 1st of the month, when weeks start on
+  /// [firstDayOfWeek] (a [DateTime.monday]..[DateTime.sunday] constant).
+  static int getFirstWeekdayOffset(DateTime month,
+      [int firstDayOfWeek = DateTime.monday]) {
+    final weekday = DateTime(month.year, month.month, 1).weekday;
+    return (weekday - firstDayOfWeek + 7) % 7;
   }
 
-  static List<String> getShortWeekdayNames(LocaleType locale) {
-    switch (locale) {
-      case LocaleType.en:
-        return ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-      case LocaleType.fr:
-        return ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
-      case LocaleType.de:
-        return ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
-      case LocaleType.es:
-        return ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
-      case LocaleType.it:
-        return ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
-      case LocaleType.pl:
-        return ['Pon', 'Wto', 'Śro', 'Czw', 'Pią', 'Sob', 'Nie'];
-    }
+  /// Weekday labels in display order, starting at [firstDayOfWeek].
+  static List<String> getWeekdayNames(
+    Locale locale, {
+    required bool full,
+    int firstDayOfWeek = DateTime.monday,
+  }) {
+    final s = symbolsFor(locale);
+    // intl lists weekdays starting on Sunday.
+    final names = full ? s.STANDALONEWEEKDAYS : s.STANDALONESHORTWEEKDAYS;
+    return List.generate(
+        7, (i) => _cap(names[(firstDayOfWeek + i) % 7], locale));
   }
 
-  static List<String> getFullWeekdayNames(LocaleType locale) {
-    switch (locale) {
-      case LocaleType.en:
-        return [
-          'Monday',
-          'Tuesday',
-          'Wednesday',
-          'Thursday',
-          'Friday',
-          'Saturday',
-          'Sunday'
-        ];
-      case LocaleType.fr:
-        return [
-          'Lundi',
-          'Mardi',
-          'Mercredi',
-          'Jeudi',
-          'Vendredi',
-          'Samedi',
-          'Dimanche'
-        ];
-      case LocaleType.de:
-        return [
-          'Montag',
-          'Dienstag',
-          'Mittwoch',
-          'Donnerstag',
-          'Freitag',
-          'Samstag',
-          'Sonntag'
-        ];
-      case LocaleType.es:
-        return [
-          'Lunes',
-          'Martes',
-          'Miércoles',
-          'Jueves',
-          'Viernes',
-          'Sábado',
-          'Domingo'
-        ];
-      case LocaleType.it:
-        return [
-          'Lunedì',
-          'Martedì',
-          'Mercoledì',
-          'Giovedì',
-          'Venerdì',
-          'Sabato',
-          'Domenica'
-        ];
-      case LocaleType.pl:
-        return [
-          'Poniedziałek',
-          'Wtorek',
-          'Środa',
-          'Czwartek',
-          'Piątek',
-          'Sobota',
-          'Niedziela'
-        ];
-    }
-  }
+  /// The name of [month] (1-12).
+  static String monthName(int month, Locale locale) =>
+      _cap(symbolsFor(locale).STANDALONEMONTHS[month - 1], locale);
 
-  static List<String> getMonthsNames(LocaleType locale) {
-    switch (locale) {
-      case LocaleType.en:
-        return [
-          'January',
-          'February',
-          'March',
-          'April',
-          'May',
-          'June',
-          'July',
-          'August',
-          'September',
-          'October',
-          'November',
-          'December'
-        ];
-      case LocaleType.fr:
-        return [
-          'Janvier',
-          'Février',
-          'Mars',
-          'Avril',
-          'Mai',
-          'Juin',
-          'Juillet',
-          'Août',
-          'Septembre',
-          'Octobre',
-          'Novembre',
-          'Décembre'
-        ];
-      case LocaleType.de:
-        return [
-          'Januar',
-          'Februar',
-          'März',
-          'April',
-          'Mai',
-          'Juni',
-          'Juli',
-          'August',
-          'September',
-          'Oktober',
-          'November',
-          'Dezember'
-        ];
-      case LocaleType.es:
-        return [
-          'Enero',
-          'Febrero',
-          'Marzo',
-          'Abril',
-          'Mayo',
-          'Junio',
-          'Julio',
-          'Agosto',
-          'Septiembre',
-          'Octubre',
-          'Noviembre',
-          'Diciembre'
-        ];
-      case LocaleType.it:
-        return [
-          'Gennaio',
-          'Febbraio',
-          'Marzo',
-          'Aprile',
-          'Maggio',
-          'Giugno',
-          'Luglio',
-          'Agosto',
-          'Settembre',
-          'Ottobre',
-          'Novembre',
-          'Dicembre'
-        ];
-      case LocaleType.pl:
-        return [
-          'Styczeń',
-          'Luty',
-          'Marzec',
-          'Kwiecień',
-          'Maj',
-          'Czerwiec',
-          'Lipiec',
-          'Sierpień',
-          'Wrzesień',
-          'Październik',
-          'Listopad',
-          'Grudzień'
-        ];
-    }
-  }
+  /// The short name of [month] (1-12).
+  static String shortMonthName(int month, Locale locale) =>
+      _cap(symbolsFor(locale).STANDALONESHORTMONTHS[month - 1], locale);
 }
