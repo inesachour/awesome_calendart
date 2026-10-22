@@ -1,3 +1,7 @@
+// Internal, not exported by the package: the public API is documented in
+// the exported files.
+// ignore_for_file: public_member_api_docs
+
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart' show dateTimeSymbolMap;
 import 'package:intl/date_symbols.dart';

@@ -1,7 +1,36 @@
 name: awesome_calendart
-description: "An easy to use calendar widget supporting all platforms (ios, android, web, desktop, ...)"
+description: "A highly customizable calendar widget with single, multiple and range selection, week and month formats, events, themes and 100+ languages. Works on all platforms."
 version: 2.0.0
 homepage: https://github.com/inesachour/awesome_calendart
+repository: https://github.com/inesachour/awesome_calendart
+issue_tracker: https://github.com/inesachour/awesome_calendart/issues
+topics:
+  - calendar
+  - date-picker
+  - widget
+  - ui
+  - date
+screenshots:
+  - description: Light and dark themes with colored event markers.
+    path: images/overview.png
+  - description: Range selection with minimum date, range length limits and disabled days.
+    path: images/range.png
+  - description: Multiple selection, Sunday first and days of the adjacent months.
+    path: images/multiple.png
+  - description: Week numbers, weekend styling and special dates.
+    path: images/weeknumbers.png
+  - description: Week format with the format button.
+    path: images/week.png
+  - description: List of the selected day's events under the calendar.
+    path: images/agenda.png
+  - description: Month and year picker.
+    path: images/picker.png
+  - description: Right-to-left Arabic locale with native digits.
+    path: images/arabic.png
+  - description: Custom theme and day builder.
+    path: images/custom.png
+  - description: Dark theme with colored events.
+    path: images/darkmode.png
 
 environment:
   sdk: '>=3.3.0 <4.0.0'

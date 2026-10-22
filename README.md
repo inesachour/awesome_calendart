@@ -6,25 +6,37 @@ A highly customizable calendar widget for Flutter: single, multiple and range se
     <img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/overview.png" width="720" alt="Light and dark themes">
 </p>
 
-<table align="center">
-  <tr>
-    <td align="center"><img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/range.png" width="240"><br><sub>Range selection, limits and disabled days</sub></td>
-    <td align="center"><img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/multiple.png" width="240"><br><sub>Multiple selection, Sunday first, adjacent days</sub></td>
-    <td align="center"><img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/weeknumbers.png" width="240"><br><sub>Week numbers, weekends and special dates</sub></td>
-  </tr>
-  <tr>
-    <td align="center"><img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/week.png" width="240"><br><sub>Week format with the format button</sub></td>
-    <td align="center"><img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/agenda.png" width="240"><br><sub>Event list under the calendar</sub></td>
-    <td align="center"><img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/picker.png" width="240"><br><sub>Month and year picker</sub></td>
-  </tr>
-  <tr>
-    <td align="center"><img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/arabic.png" width="240"><br><sub>Right-to-left locale (Arabic digits by default)</sub></td>
-    <td align="center"><img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/custom.png" width="240"><br><sub>Custom theme and <code>dayBuilder</code></sub></td>
-    <td align="center"><img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/darkmode.png" width="240"><br><sub>Dark theme with colored events</sub></td>
-  </tr>
-</table>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/range.png" width="230" alt="Range selection">
+  <img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/multiple.png" width="230" alt="Multiple selection">
+  <img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/weeknumbers.png" width="230" alt="Week numbers and special dates">
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/week.png" width="230" alt="Week format">
+  <img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/agenda.png" width="230" alt="Event list">
+  <img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/picker.png" width="230" alt="Month and year picker">
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/arabic.png" width="230" alt="Arabic, right to left">
+  <img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/custom.png" width="230" alt="Custom theme and dayBuilder">
+  <img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/darkmode.png" width="230" alt="Dark theme">
+</p>
+
+<p align="center"><sub>
+Range selection with limits · multiple selection with adjacent days · week numbers, weekends and special dates<br>
+Week format · event list under the calendar · month and year picker<br>
+Arabic (right to left, native digits) · custom theme and <code>dayBuilder</code> · dark theme with colored events
+</sub></p>
+
+## Contents
+
+[Getting started](#getting-started) · [Recipes](#recipes) · [Selection](#selection) · [Limits and rules](#limits-rules-and-disabled-days) · [Calendar format](#calendar-format) · [Controller](#controller) · [Events](#events) · [Week numbers, weekends and special days](#week-numbers-weekends-and-special-days) · [Keyboard](#keyboard-navigation) · [Customization](#customization) · [Localization](#localization) · [Accessibility](#accessibility) · [Migrating from 1.x](#migrating-from-1x)
 
 ## Getting started
+
+Requires Flutter 3.19 or newer (Dart 3.3). Works on Android, iOS, web and desktop.
 
 ```yaml
 dependencies:
@@ -39,7 +51,69 @@ AwesomeCalenDart(
 )
 ```
 
-Every parameter is optional.
+Every parameter is optional. The sections below show each feature; [Customization](#customization) lists every parameter, and the API reference on pub.dev documents each one in detail. The [example app](example/lib/main.dart) shows all of them running.
+
+## Recipes
+
+### A booking range picker
+
+Pick 2 to 14 nights, from today to next year, skipping dates that are already booked:
+
+```dart
+AwesomeCalenDart(
+  selectionMode: AwesomeSelectionMode.range,
+  minDate: DateTime.now(),
+  maxDate: DateTime.now().add(const Duration(days: 365)),
+  minRangeLength: 2,
+  maxRangeLength: 14,
+  disabledDates: bookedDates, // a List<DateTime>
+  showAdjacentMonthDays: true,
+  onRangeChanged: (start, end) {
+    if (end != null) print('Book from $start to $end');
+  },
+)
+```
+
+### A birthday picker
+
+The year picker opens when you tap the header, so far-away years are quick to reach:
+
+```dart
+AwesomeCalenDart(
+  initialDate: DateTime(1995, 6, 15),
+  maxDate: DateTime.now(),
+  highlightToday: false,
+  onDateSelected: (birthday) => print(birthday),
+)
+```
+
+### An agenda with a "Today" button
+
+```dart
+final controller = AwesomeCalenDartController();
+
+Column(
+  children: [
+    AwesomeCalenDart(
+      controller: controller,
+      events: myEvents, // a List<AwesomeEvent>
+      eventListBuilder: (context, date, dayEvents) => Column(
+        children: [
+          for (final event in dayEvents)
+            ListTile(
+              leading: Icon(Icons.circle, color: event.color, size: 12),
+              title: Text(event.label ?? 'Event'),
+            ),
+        ],
+      ),
+    ),
+    TextButton(
+      onPressed: () => controller.selectDate(DateTime.now()),
+      child: const Text('Today'),
+    ),
+  ],
+)
+```
 
 ## Selection
 
@@ -278,7 +352,8 @@ AwesomeCalenDart(
 Names come from `intl`, so any locale it supports works:
 
 ```dart
-AwesomeCalenDart(locale: const Locale('fr'))   // also: de, es, it, pl, ar, ja, ...
+// Any locale supported by intl works: de, es, it, pl, ar, ja, ...
+AwesomeCalenDart(locale: const Locale('fr'))
 ```
 
 Right-to-left languages (Arabic, Hebrew, Persian, Urdu, ...) mirror the layout, swipe direction, keyboard arrows and navigation arrows.
@@ -295,12 +370,30 @@ Each day is announced with its full date (and event labels), selected state and 
 
 ## Migrating from 1.x
 
-* `locale: LocaleType.fr` → `locale: const Locale('fr')`
-* `displayFullMonthName` → `displayFullWeekdayNames`
-* `AwesomeTheme` fields are `final` (use `copyWith`).
+**Code changes**
+
+| 1.x | 2.0 |
+|---|---|
+| `locale: LocaleType.fr` | `locale: const Locale('fr')` |
+| `displayFullMonthName: true` | `displayFullWeekdayNames: true` (it always controlled the weekday labels) |
+| `theme.buttonColor = Colors.red` (mutable `AwesomeTheme` fields) | `theme: const LightTheme().copyWith(buttonColor: Colors.red)` |
+| `AwesomeTheme()` / `LightTheme()` / `DarkTheme()` | unchanged, and now `const` |
+
+`eventMarkers` and every other 1.x parameter keep working.
+
+**Things that look different without any code change**
+
+* Month and weekday names come from `intl`, so some spellings change: French and Polish weekdays get a trailing dot ("Lun.", "Pon."), and German weekdays are "Mo", "Di", "Mi", ... instead of "Mon", "Die", "Mit", ...
+* Today gets a ring. Turn it off with `highlightToday: false`.
+* Digits follow the locale: Arabic and Persian calendars show native digits, English and French are unchanged. Turn it off with `useLocaleDigits: false`.
+* Days are now placed under the correct weekday (1.x always started the month under Monday).
+* Swiping changes the month, and tapping the header opens the month and year pickers. Turn them off with `enableSwipe: false` and `enableMonthYearPicker: false`.
+* The calendar now takes only the height it needs, instead of filling a bounded parent.
 
 See the [example](example/lib/main.dart) for every feature in action, and the [changelog](CHANGELOG.md).
 
 ## Contributing
 
-The screenshots above are generated from the real widgets: run `flutter test tool/generate_screenshots_test.dart` to refresh the files in `images/`.
+* The screenshots above are generated from the real widgets: run `flutter test tool/generate_screenshots_test.dart` to refresh the files in `images/`.
+* The code of the [recipes](#recipes) and of the examples in this file is compiled and run by `test/readme_snippets_test.dart`. When you change an example here, change it there too.
+* Run `flutter analyze` and `flutter test` before opening a pull request. Every public member needs a doc comment (the `public_member_api_docs` lint is on).

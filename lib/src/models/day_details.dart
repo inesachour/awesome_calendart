@@ -39,6 +39,8 @@ class AwesomeDayDetails {
   /// The events on this day.
   final List<AwesomeEvent> events;
 
+  /// Creates the details of one day cell. You normally receive this from the
+  /// calendar instead of creating it.
   const AwesomeDayDetails({
     required this.date,
     required this.isSelected,
@@ -84,6 +86,7 @@ class AwesomeDayStyle {
   /// The color of a ring drawn around the day.
   final Color? borderColor;
 
+  /// Creates a day style. Every field is optional.
   const AwesomeDayStyle(
       {this.textStyle, this.backgroundColor, this.borderColor});
 }
@@ -116,6 +119,8 @@ class AwesomeHeaderDetails {
   /// Cycles the calendar format, or null when `showFormatButton` is false.
   final VoidCallback? changeFormat;
 
+  /// Creates the details of the header. You normally receive this from the
+  /// calendar instead of creating it.
   const AwesomeHeaderDetails({
     required this.month,
     required this.title,

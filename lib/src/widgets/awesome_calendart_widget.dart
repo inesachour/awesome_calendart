@@ -212,6 +212,7 @@ class AwesomeCalenDart extends StatefulWidget {
   /// In the week formats it follows the month of the visible week.
   final ValueChanged<DateTime>? onMonthChanged;
 
+  /// Creates a calendar. Every parameter is optional.
   const AwesomeCalenDart({
     super.key,
     this.elevation = 5,

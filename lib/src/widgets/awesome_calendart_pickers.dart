@@ -1,3 +1,7 @@
+// Internal, not exported by the package: the public API is documented in
+// the exported files.
+// ignore_for_file: public_member_api_docs
+
 import 'package:awesome_calendart/src/theme/theme.dart';
 import 'package:awesome_calendart/src/utils/date_utils.dart';
 import 'package:flutter/material.dart';

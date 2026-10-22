@@ -15,5 +15,6 @@ class AwesomeEvent {
   /// A description of the event, read out by screen readers.
   final String? label;
 
+  /// Creates an event on [date], optionally with a [color] and a [label].
   const AwesomeEvent({required this.date, this.color, this.label});
 }

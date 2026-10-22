@@ -91,6 +91,7 @@ class AwesomeTheme extends ThemeExtension<AwesomeTheme> {
   /// The diameter of an event marker dot.
   final double eventMarkerSize;
 
+  /// Creates a theme. Every field has a default matching [LightTheme].
   const AwesomeTheme({
     this.backgroundColor = const Color(0xFFFFFFFF),
     this.buttonColor = const Color(0xFF4A5660),
@@ -249,11 +250,13 @@ class AwesomeTheme extends ThemeExtension<AwesomeTheme> {
 
 /// The default light theme.
 class LightTheme extends AwesomeTheme {
+  /// Creates the default light theme.
   const LightTheme() : super();
 }
 
 /// A ready-made dark theme.
 class DarkTheme extends AwesomeTheme {
+  /// Creates the dark theme.
   const DarkTheme()
       : super(
           backgroundColor: const Color(0xFF464646),
