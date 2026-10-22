@@ -1,4 +1,4 @@
-library awesome_calendar;
+library awesome_calendart;
 
 export 'package:awesome_calendart/src/widgets/awesome_calendart_widget.dart';
 

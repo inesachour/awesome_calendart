@@ -15,7 +15,7 @@ class AwesomeDateUtils {
     }
   }
 
-  static getPreviousMonth(DateTime date) {
+  static DateTime getPreviousMonth(DateTime date) {
     if (date.month != 1) {
       return DateTime(date.year, date.month - 1, 1);
     } else {
@@ -23,8 +23,13 @@ class AwesomeDateUtils {
     }
   }
 
-  static getDaysInMonth(DateTime date) {
+  static int getDaysInMonth(DateTime date) {
     return DateUtils.getDaysInMonth(date.year, date.month);
+  }
+
+  /// Number of cells before the 1st of the month in a Monday-first week.
+  static int getFirstWeekdayOffset(DateTime month) {
+    return DateTime(month.year, month.month, 1).weekday - 1;
   }
 
   static List<String> getShortWeekdayNames(LocaleType locale) {
@@ -34,7 +39,7 @@ class AwesomeDateUtils {
       case LocaleType.fr:
         return ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
       case LocaleType.de:
-        return ['Mon', 'Die', 'Mit', 'Don', 'Fre', 'Sam', 'Son'];
+        return ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
       case LocaleType.es:
         return ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
       case LocaleType.it:

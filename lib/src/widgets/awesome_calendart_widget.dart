@@ -12,7 +12,7 @@ class AwesomeCalenDart extends StatefulWidget {
   /// The locale type for the calendar, determining the language (default [LocaleType.en]).
   final LocaleType locale;
 
-  /// A flag to indicate whether the full month name should be displayed (e.g., "January" instead of "Jan") (default false).
+  /// A flag to indicate whether full weekday names should be displayed (e.g., "Monday" instead of "Mon") (default false).
   final bool displayFullMonthName;
 
   /// A theme that can be applied to the calendar (default [LightTheme]).
@@ -20,6 +20,9 @@ class AwesomeCalenDart extends StatefulWidget {
 
   /// A list of dates with markers to highlight events, reminders, or special occasions.
   final List<DateTime>? eventMarkers;
+
+  /// Called when the user taps a day.
+  final ValueChanged<DateTime>? onDateSelected;
 
   const AwesomeCalenDart({
     super.key,
@@ -29,6 +32,7 @@ class AwesomeCalenDart extends StatefulWidget {
     this.displayFullMonthName = false,
     this.theme,
     this.eventMarkers,
+    this.onDateSelected,
   });
 
   @override
@@ -37,21 +41,14 @@ class AwesomeCalenDart extends StatefulWidget {
 
 class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
   late DateTime selectedDate, selectedMonth;
-  late int selectedYear;
-  late AwesomeTheme theme;
 
-  int selectedView = 0;
-
-  updateSelectedView(int index) {
-    setState(() {
-      selectedView = index;
-    });
-  }
+  AwesomeTheme get theme => widget.theme ?? LightTheme();
 
   updateSelectedDate(DateTime newDate) {
     setState(() {
       selectedDate = newDate;
     });
+    widget.onDateSelected?.call(newDate);
   }
 
   updateSelectedMonth(DateTime newMonth) {
@@ -60,18 +57,10 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
     });
   }
 
-  updateSelectedYear(int newYear) {
-    setState(() {
-      selectedYear = newYear;
-    });
-  }
-
   @override
   void initState() {
     selectedDate = DateTime.now();
     selectedMonth = DateTime(selectedDate.year, selectedDate.month, 1);
-    selectedYear = selectedDate.year;
-    theme = widget.theme ?? (widget.theme ?? LightTheme());
     super.initState();
   }
 
@@ -88,7 +77,6 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
             selectedMonth: selectedMonth,
             updateSelectedDate: updateSelectedDate,
             updateSelectedMonth: updateSelectedMonth,
-            updateSelectedView: updateSelectedView,
             displayFullMonthName: widget.displayFullMonthName,
             theme: theme,
             locale: widget.locale,

@@ -7,7 +7,6 @@ class AwesomeCalenDartDaysView extends StatefulWidget {
   final DateTime selectedMonth;
   final Function(DateTime) updateSelectedDate;
   final Function(DateTime) updateSelectedMonth;
-  final Function(int) updateSelectedView;
   final bool displayFullMonthName;
   final AwesomeTheme theme;
   final LocaleType locale;
@@ -19,7 +18,6 @@ class AwesomeCalenDartDaysView extends StatefulWidget {
     required this.selectedMonth,
     required this.updateSelectedDate,
     required this.updateSelectedMonth,
-    required this.updateSelectedView,
     required this.displayFullMonthName,
     required this.theme,
     required this.locale,
@@ -32,8 +30,6 @@ class AwesomeCalenDartDaysView extends StatefulWidget {
 }
 
 class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
-  late List<String> weekDays;
-
   _getPreviousMonth() {
     DateTime newDate = AwesomeDateUtils.getPreviousMonth(widget.selectedMonth);
     widget.updateSelectedMonth(newDate);
@@ -45,25 +41,13 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
   }
 
   @override
-  void didUpdateWidget(covariant AwesomeCalenDartDaysView oldWidget) {
-    if (oldWidget.locale != widget.locale) {
-      weekDays = widget.displayFullMonthName
-          ? AwesomeDateUtils.getFullWeekdayNames(widget.locale)
-          : AwesomeDateUtils.getShortWeekdayNames(widget.locale);
-    }
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    weekDays = widget.displayFullMonthName
+  Widget build(BuildContext context) {
+    final weekDays = widget.displayFullMonthName
         ? AwesomeDateUtils.getFullWeekdayNames(widget.locale)
         : AwesomeDateUtils.getShortWeekdayNames(widget.locale);
-  }
+    final leadingEmptyCells =
+        AwesomeDateUtils.getFirstWeekdayOffset(widget.selectedMonth);
 
-  @override
-  Widget build(BuildContext context) {
     return Column(
       children: [
         Row(
@@ -76,16 +60,11 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
               ),
             ),
             Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  widget.updateSelectedView(1);
-                },
-                child: Text(
-                  AwesomeDateUtils.getMonthAndYear(
-                      widget.selectedMonth, widget.locale),
-                  textAlign: TextAlign.center,
-                  style: widget.theme.yearAndMonthHeaderTextStyle,
-                ),
+              child: Text(
+                AwesomeDateUtils.getMonthAndYear(
+                    widget.selectedMonth, widget.locale),
+                textAlign: TextAlign.center,
+                style: widget.theme.yearAndMonthHeaderTextStyle,
               ),
             ),
             IconButton(
@@ -99,6 +78,7 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
         ),
         GridView.count(
           shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
           crossAxisCount: 7,
           childAspectRatio: 1.5,
           padding: const EdgeInsets.all(0),
@@ -106,6 +86,8 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
             return Center(
               child: Text(
                 weekDays[i],
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: widget.theme.weekDaysTextStyle,
               ),
             );
@@ -113,11 +95,16 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
         ),
         GridView.count(
           shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
           crossAxisCount: 7,
           childAspectRatio: 1.5,
           padding: const EdgeInsets.all(0),
           children: List<Widget>.generate(
-              AwesomeDateUtils.getDaysInMonth(widget.selectedMonth), (i) {
+              leadingEmptyCells +
+                  AwesomeDateUtils.getDaysInMonth(widget.selectedMonth),
+              (cell) {
+            if (cell < leadingEmptyCells) return const SizedBox.shrink();
+            final i = cell - leadingEmptyCells;
             bool isDateSelected = DateUtils.isSameDay(
                 widget.selectedDate,
                 DateTime(widget.selectedMonth.year, widget.selectedMonth.month,
