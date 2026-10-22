@@ -15,7 +15,8 @@ class AwesomeDateUtils {
   /// The `intl` symbols for [locale], falling back from
   /// `language_COUNTRY` to `language`, and finally to English.
   static DateSymbols symbolsFor(Locale locale) {
-    final map = _symbols ??= dateTimeSymbolMap();
+    // Older intl versions (0.18) return an untyped map from dateTimeSymbolMap().
+    final map = _symbols ??= Map<String, DateSymbols>.from(dateTimeSymbolMap());
     final candidates = [
       locale.toString(),
       if (locale.countryCode != null)

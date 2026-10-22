@@ -40,7 +40,7 @@ Requires Flutter 3.19 or newer (Dart 3.3). Works on Android, iOS, web and deskto
 
 ```yaml
 dependencies:
-  awesome_calendart: ^2.0.0
+  awesome_calendart: ^2.0.1
 ```
 
 ```dart

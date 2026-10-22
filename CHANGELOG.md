@@ -71,3 +71,7 @@
 * Days were not placed under the correct weekday.
 * `theme`, `locale` and `displayFullWeekdayNames` changes were ignored after the first build.
 * The nested grids could scroll inside scroll views.
+
+## 2.0.1
+
+* Fix compatibility with the lowest supported `intl` (0.18.1), which made the downgrade analysis fail on pub.dev.
