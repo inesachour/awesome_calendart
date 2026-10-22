@@ -129,11 +129,6 @@ void main() {
     );
   });
 
-  testWidgets('lightmode', (tester) async {
-    await _shot(tester, 'lightmode',
-        AwesomeCalenDart(initialDate: _month, events: events));
-  });
-
   testWidgets('darkmode', (tester) async {
     await _shot(
       tester,
