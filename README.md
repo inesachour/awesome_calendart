@@ -52,7 +52,7 @@ Requires Flutter 3.19 or newer (Dart 3.3). Works on Android, iOS, web and deskto
 
 ```yaml
 dependencies:
-  awesome_calendart: ^2.0.1
+  awesome_calendart: ^2.0.2
 ```
 
 ```dart
@@ -403,9 +403,3 @@ Each day is announced with its full date (and event labels), selected state and 
 * The calendar now takes only the height it needs, instead of filling a bounded parent.
 
 See the [example](example/lib/main.dart) for every feature in action, and the [changelog](CHANGELOG.md).
-
-## Contributing
-
-* The screenshots above are generated from the real widgets: run `flutter test tool/generate_screenshots_test.dart` to refresh the files in `images/`.
-* The code of the [recipes](#recipes) and of the examples in this file is compiled and run by `test/readme_snippets_test.dart`. When you change an example here, change it there too.
-* Run `flutter analyze` and `flutter test` before opening a pull request. Every public member needs a doc comment (the `public_member_api_docs` lint is on).

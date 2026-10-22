@@ -75,3 +75,7 @@
 ## 2.0.1
 
 * Fix compatibility with the lowest supported `intl` (0.18.1), which made the downgrade analysis fail on pub.dev.
+
+## 2.0.2
+
+* Documentation: clearer table of contents, a fuller migration guide, recipes, and uniform screenshots.
