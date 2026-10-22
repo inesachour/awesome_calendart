@@ -46,6 +46,36 @@ class AwesomeTheme {
     this.eventMarkerColorOnSelectedDay = Colors.white,
     this.eventMarkerColorOnUnselectedDay = const Color(0xFFF04D23),
   });
+
+  /// Returns a copy of this theme with the given fields replaced.
+  AwesomeTheme copyWith({
+    Color? backgroundColor,
+    Color? buttonColor,
+    TextStyle? yearAndMonthHeaderTextStyle,
+    TextStyle? weekDaysTextStyle,
+    Color? selectedDateBackgroundColor,
+    TextStyle? selectedDayTextStyle,
+    TextStyle? unselectedDayTextStyle,
+    Color? eventMarkerColorOnUnselectedDay,
+    Color? eventMarkerColorOnSelectedDay,
+  }) {
+    return AwesomeTheme(
+      backgroundColor: backgroundColor ?? this.backgroundColor,
+      buttonColor: buttonColor ?? this.buttonColor,
+      yearAndMonthHeaderTextStyle:
+          yearAndMonthHeaderTextStyle ?? this.yearAndMonthHeaderTextStyle,
+      weekDaysTextStyle: weekDaysTextStyle ?? this.weekDaysTextStyle,
+      selectedDateBackgroundColor:
+          selectedDateBackgroundColor ?? this.selectedDateBackgroundColor,
+      selectedDayTextStyle: selectedDayTextStyle ?? this.selectedDayTextStyle,
+      unselectedDayTextStyle:
+          unselectedDayTextStyle ?? this.unselectedDayTextStyle,
+      eventMarkerColorOnUnselectedDay: eventMarkerColorOnUnselectedDay ??
+          this.eventMarkerColorOnUnselectedDay,
+      eventMarkerColorOnSelectedDay:
+          eventMarkerColorOnSelectedDay ?? this.eventMarkerColorOnSelectedDay,
+    );
+  }
 }
 
 class LightTheme extends AwesomeTheme {

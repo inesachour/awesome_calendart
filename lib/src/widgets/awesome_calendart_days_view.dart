@@ -48,11 +48,19 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
     final leadingEmptyCells =
         AwesomeDateUtils.getFirstWeekdayOffset(widget.selectedMonth);
 
+    final textScale = MediaQuery.textScalerOf(context).scale(14) / 14;
+    final aspectRatio = 1.5 / textScale.clamp(1.0, 2.0);
+    final months = AwesomeDateUtils.getMonthsNames(widget.locale);
+
     return Column(
       children: [
         Row(
           children: [
             IconButton(
+              tooltip: months[
+                  AwesomeDateUtils.getPreviousMonth(widget.selectedMonth)
+                          .month -
+                      1],
               onPressed: _getPreviousMonth,
               icon: Icon(
                 Icons.arrow_back_ios,
@@ -68,6 +76,9 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
               ),
             ),
             IconButton(
+              tooltip: months[
+                  AwesomeDateUtils.getNextMonth(widget.selectedMonth).month -
+                      1],
               onPressed: _getNextMonth,
               icon: Icon(
                 Icons.arrow_forward_ios,
@@ -80,7 +91,7 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           crossAxisCount: 7,
-          childAspectRatio: 1.5,
+          childAspectRatio: aspectRatio,
           padding: const EdgeInsets.all(0),
           children: List<Widget>.generate(7, (i) {
             return Center(
@@ -97,7 +108,7 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           crossAxisCount: 7,
-          childAspectRatio: 1.5,
+          childAspectRatio: aspectRatio,
           padding: const EdgeInsets.all(0),
           children: List<Widget>.generate(
               leadingEmptyCells +
@@ -117,39 +128,57 @@ class _AwesomeCalenDartDaysViewState extends State<AwesomeCalenDartDaysView> {
                 }) ??
                 false;
 
-            return GestureDetector(
-              onTap: () {
-                widget.updateSelectedDate(DateTime(widget.selectedMonth.year,
-                    widget.selectedMonth.month, i + 1));
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: isDateSelected
-                      ? widget.theme.selectedDateBackgroundColor
-                      : null,
-                  shape: BoxShape.circle,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "${i + 1}",
-                      style: isDateSelected
-                          ? widget.theme.selectedDayTextStyle
-                          : widget.theme.unselectedDayTextStyle,
+            final date = DateTime(
+                widget.selectedMonth.year, widget.selectedMonth.month, i + 1);
+
+            return Semantics(
+              button: true,
+              selected: isDateSelected,
+              label:
+                  "${i + 1} ${months[date.month - 1]} ${date.year}${isEvent ? ', event' : ''}",
+              excludeSemantics: true,
+              child: Material(
+                type: MaterialType.transparency,
+                child: InkWell(
+                  customBorder: const CircleBorder(),
+                  onTap: () => widget.updateSelectedDate(date),
+                  child: Ink(
+                    decoration: BoxDecoration(
+                      color: isDateSelected
+                          ? widget.theme.selectedDateBackgroundColor
+                          : null,
+                      shape: BoxShape.circle,
                     ),
-                    if (isEvent)
-                      Container(
-                        width: 4,
-                        height: 4,
-                        decoration: BoxDecoration(
-                          color: isDateSelected
-                              ? widget.theme.eventMarkerColorOnSelectedDay
-                              : widget.theme.eventMarkerColorOnUnselectedDay,
-                          shape: BoxShape.circle,
+                    child: Center(
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "${i + 1}",
+                              style: isDateSelected
+                                  ? widget.theme.selectedDayTextStyle
+                                  : widget.theme.unselectedDayTextStyle,
+                            ),
+                            if (isEvent)
+                              Container(
+                                width: 4,
+                                height: 4,
+                                decoration: BoxDecoration(
+                                  color: isDateSelected
+                                      ? widget
+                                          .theme.eventMarkerColorOnSelectedDay
+                                      : widget.theme
+                                          .eventMarkerColorOnUnselectedDay,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                          ],
                         ),
                       ),
-                  ],
+                    ),
+                  ),
                 ),
               ),
             );
