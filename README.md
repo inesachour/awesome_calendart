@@ -32,7 +32,19 @@ Arabic (right to left, native digits) · custom theme and <code>dayBuilder</code
 
 ## Contents
 
-[Getting started](#getting-started) · [Recipes](#recipes) · [Selection](#selection) · [Limits and rules](#limits-rules-and-disabled-days) · [Calendar format](#calendar-format) · [Controller](#controller) · [Events](#events) · [Week numbers, weekends and special days](#week-numbers-weekends-and-special-days) · [Keyboard](#keyboard-navigation) · [Customization](#customization) · [Localization](#localization) · [Accessibility](#accessibility) · [Migrating from 1.x](#migrating-from-1x)
+- [Getting started](#getting-started)
+- [Recipes](#recipes)
+- [Selection](#selection)
+- [Limits, rules and disabled days](#limits-rules-and-disabled-days)
+- [Calendar format](#calendar-format)
+- [Controller](#controller)
+- [Events](#events)
+- [Week numbers, weekends and special days](#week-numbers-weekends-and-special-days)
+- [Keyboard navigation](#keyboard-navigation)
+- [Customization](#customization)
+- [Localization](#localization)
+- [Accessibility](#accessibility)
+- [Migrating from 1.x](#migrating-from-1x)
 
 ## Getting started
 
