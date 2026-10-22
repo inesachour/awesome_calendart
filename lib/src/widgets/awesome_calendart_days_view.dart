@@ -30,11 +30,16 @@ class AwesomeCalenDartWeekdays extends StatelessWidget {
           for (final name in names)
             Expanded(
               child: Center(
-                child: Text(
-                  name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: theme.weekDaysTextStyle,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 3),
+                    child: Text(
+                      name,
+                      maxLines: 1,
+                      style: theme.weekDaysTextStyle,
+                    ),
+                  ),
                 ),
               ),
             ),

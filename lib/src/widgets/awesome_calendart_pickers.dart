@@ -165,6 +165,7 @@ class AwesomeCalenDartMonthPicker extends StatelessWidget {
     final canPrevious = minMonth == null || year - 1 >= minMonth!.year;
     final canNext = maxMonth == null || year + 1 <= maxMonth!.year;
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         AwesomeCalenDartHeader(
           title: '$year',
@@ -228,6 +229,7 @@ class AwesomeCalenDartYearPicker extends StatelessWidget {
     final canPrevious = minYear == null || startYear - 1 >= minYear!;
     final canNext = maxYear == null || endYear + 1 <= maxYear!;
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         AwesomeCalenDartHeader(
           title: '$startYear - $endYear',

@@ -2,15 +2,22 @@
 
 A highly customizable calendar widget for Flutter: single, multiple and range selection, date limits, colored event markers, month/year pickers, swipe navigation, controller, theming, and 100+ languages (including right-to-left) via `intl`. Works on all platforms.
 
-* Light Mode:
-<p align="center" width="100%">
-    <img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/lightmode.jpg" height="300">
+<p align="center">
+    <img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/overview.png" width="720" alt="Light and dark themes">
 </p>
 
-* Dark Mode:
-<p align="center" width="100%">
-    <img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/darkmode.jpg" height="300">
-</p>
+<table align="center">
+  <tr>
+    <td align="center"><img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/range.png" width="260"><br><sub>Range selection, min date and disabled days</sub></td>
+    <td align="center"><img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/multiple.png" width="260"><br><sub>Multiple selection, Sunday first, adjacent days</sub></td>
+    <td align="center"><img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/picker.png" width="260"><br><sub>Month and year picker</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/arabic.png" width="260"><br><sub>Right-to-left locale (Arabic)</sub></td>
+    <td align="center"><img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/custom.png" width="260"><br><sub>Custom theme and <code>dayBuilder</code></sub></td>
+    <td align="center"><img src="https://raw.githubusercontent.com/inesachour/awesome_calendart/master/images/darkmode.png" width="260"><br><sub>Dark theme with colored events</sub></td>
+  </tr>
+</table>
 
 ## Getting started
 
@@ -176,3 +183,7 @@ Each day is announced with its full date (and event labels), selected state and 
 * `AwesomeTheme` fields are `final` (use `copyWith`).
 
 See the [example](example/lib/main.dart) for every feature in action, and the [changelog](CHANGELOG.md).
+
+## Contributing
+
+The screenshots above are generated from the real widgets: run `flutter test tool/generate_screenshots_test.dart` to refresh the files in `images/`.

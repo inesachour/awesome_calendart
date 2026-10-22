@@ -375,6 +375,7 @@ class _AwesomeCalenDartState extends State<AwesomeCalenDart> {
     );
 
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         AwesomeCalenDartHeader(
           title: title,
